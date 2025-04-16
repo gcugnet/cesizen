@@ -1,0 +1,3 @@
+#!/bin/sh
+
+pg_ctl -o "-k \"$PGDATA\"" -l "$PGDATA/server.log" start
