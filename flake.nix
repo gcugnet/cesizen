@@ -15,12 +15,17 @@
     };
 
     git-z = {
-      url = "github:ejpcmac/git-z";
+      url = "https://flakehub.com/f/ejpcmac/git-z/*";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     android-nixpkgs = {
       url = "github:tadfisher/android-nixpkgs/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -32,26 +37,27 @@
 
       perSystem = { system, ... }:
         let
+          overlays = [ (import inputs.rust-overlay) ];
           pkgs = import inputs.nixpkgs {
-            inherit system;
+            inherit system overlays;
             config = {
               android_sdk.accept_license = true;
               allowUnfree = true;
             };
           };
 
+          rust-toolchain =
+            pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml;
+
           android-sdk = inputs.android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs;
             [
               cmdline-tools-latest
-              build-tools-30-0-3
-              build-tools-33-0-1
               build-tools-34-0-0
-              platforms-android-31
+              ndk-25-2-9519653
               platforms-android-33
-              platforms-android-34
-              platform-tools
-              emulator
-              system-images-android-35-google-apis-x86-64
+              # NOTE: ucnomment lines below to use an emulator.
+              # emulator
+              # system-images-android-35-google-apis-x86-64
             ]);
 
           git-z = inputs.git-z.packages.${system}.git-z;
@@ -80,7 +86,7 @@
               libnotify
 
               # IDE toolchain.
-              nil
+              nixd
               nixpkgs-fmt
 
               # Tools.
@@ -89,15 +95,12 @@
               gitAndTools.gitflow
               git-z
 
-              # Flutter and Android dependencies.
-              android-sdk # The Android Software Development Kit
-              cmake
-              flutter # Flutter Software Development Kit
-              gradle # Java's Build Tool
-              libsecret # Required for Flutter's CLI authentication
-              pcre2
-              pkg-config
-              gtk3 # GUI dependencies for Flutter
+              # Rust toolchain.
+              rust-toolchain
+
+              # Dioxus.
+              dioxus-cli
+              wasm-bindgen-cli_0_2_100
             ];
 
             env = [
@@ -112,11 +115,6 @@
               }
 
               {
-                name = "ANDROID_SDK_ROOT";
-                eval = "${android-sdk}/share/android-sdk";
-              }
-
-              {
                 name = "GRADLE_OPTS";
                 value = "-Dorg.gradle.project.android.aapt2FromMavenOverride=" +
                   "${android-sdk}/share/android-sdk/build-tools/34.0.0/aapt2";
@@ -125,6 +123,11 @@
               {
                 name = "JAVA_HOME";
                 value = pkgs.jdk17.home;
+              }
+
+              {
+                name = "NIX_PATH";
+                value = "nixpkgs=${inputs.nixpkgs}";
               }
             ];
 
