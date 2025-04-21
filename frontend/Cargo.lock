@@ -332,6 +332,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "cesizen-api"
+version = "0.1.0"
+
+[[package]]
 name = "cesizen-app"
 version = "0.1.0"
 dependencies = [

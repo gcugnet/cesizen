@@ -1,5 +1,5 @@
 [workspace]
-members = ["cesizen-app"]
+members = ["cesizen-api", "cesizen-app"]
 
 [profile]
 
