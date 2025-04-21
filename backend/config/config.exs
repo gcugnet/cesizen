@@ -21,7 +21,8 @@ config :spark,
 
 config :cesizen,
   ecto_repos: [Cesizen.Repo],
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  ash_domains: [Cesizen.Accounts]
 
 # Configures the endpoint
 config :cesizen, CesizenWeb.Endpoint,

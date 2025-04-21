@@ -1,5 +1,5 @@
 defmodule CesizenWeb.AshJsonApiRouter do
   use AshJsonApi.Router,
-    domains: [],
+    domains: [Cesizen.Accounts],
     open_api: "/open_api"
 end
