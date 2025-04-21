@@ -7,7 +7,17 @@
 # General application configuration
 import Config
 
-config :spark, formatter: ["Ash.Resource": [section_order: [:postgres]]]
+config :mime,
+  extensions: %{"json" => "application/vnd.api+json"},
+  types: %{"application/vnd.api+json" => ["json"]}
+
+config :ash_json_api, show_public_calculations_when_loaded?: false
+
+config :spark,
+  formatter: [
+    "Ash.Resource": [section_order: [:json_api, :postgres]],
+    "Ash.Domain": [section_order: [:json_api]]
+  ]
 
 config :cesizen,
   ecto_repos: [Cesizen.Repo],

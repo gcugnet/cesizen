@@ -33,6 +33,8 @@ defmodule Cesizen.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:open_api_spex, "~> 3.0"},
+      {:ash_json_api, "~> 1.0"},
       {:ash_postgres, "~> 2.0"},
       {:igniter, "~> 0.5", only: [:dev, :test]},
       {:phoenix, "~> 1.7.21"},
@@ -82,7 +84,8 @@ defmodule Cesizen.MixProject do
         "tailwind cesizen --minify",
         "esbuild cesizen --minify",
         "phx.digest"
-      ]
+      ],
+      "phx.routes": ["phx.routes", "ash_json_api.routes"]
     ]
   end
 end
