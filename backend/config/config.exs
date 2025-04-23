@@ -15,8 +15,27 @@ config :ash_json_api, show_public_calculations_when_loaded?: false
 
 config :spark,
   formatter: [
-    "Ash.Resource": [section_order: [:json_api, :postgres]],
-    "Ash.Domain": [section_order: [:json_api]]
+    remove_parens?: true,
+    "Ash.Domain": [section_order: [:json_api]],
+    "Ash.Resource": [
+      section_order: [
+        # Any section not in this list is left where it is.
+        # But these sections will always appear in this order in a resource.
+        :json_api,
+        :postgres,
+        :attributes,
+        :relationships,
+        :identities,
+        :code_interface,
+        :actions,
+        :agregates,
+        :validations,
+        :authentication,
+        :tokens,
+        :field_policies,
+        :policies
+      ]
+    ]
   ]
 
 config :cesizen,
