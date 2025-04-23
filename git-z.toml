@@ -50,6 +50,7 @@ list = [
     "G:F", # Global: Frontend
 
     # Project backend scopes
+    "B:API",        # Backend: API
     "B:API:Cats",   # Backend: API Categories
     "B:API:Docs",   # Backend: API Documents
     "B:API:Emos",   # Backend: API Emotions
@@ -58,8 +59,10 @@ list = [
     "B:R:Doc",      # Backend: Model Document
     "B:R:Emo",      # Backend: Model Emotion
     "B:R:User",     # Backend: Model User
+    "B:Router",     # Backend: Router
 
     # Project frontend scopes
+    "F:API",       # Frontend: API
     "F:API:Cats",  # Frontend: API Categories
     "F:API:Docs",  # Frontend: API Documents
     "F:API:Emos",  # Frontend: API Emotions
@@ -68,6 +71,7 @@ list = [
     "F:S:Docs",    # Frontend: Screens Documents
     "F:S:Emos",    # Frontend: Screens Emotions
     "F:S:Users",   # Frontend: Screens Users
+    "F:Router",    # Frontend: Router
 ]
 
 # The ticket / issue reference configuration.
