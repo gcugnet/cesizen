@@ -17,7 +17,8 @@ config :cesizen, Cesizen.Repo,
 # you can enable the server option below.
 config :cesizen, CesizenWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "aYKKdRNJ5lwFdpar8DPCZle7DutCQwEkpAAtfVOdUfFBKMXqa5DFbpNQeeqLmIN5",
+  secret_key_base:
+    "aYKKdRNJ5lwFdpar8DPCZle7DutCQwEkpAAtfVOdUfFBKMXqa5DFbpNQeeqLmIN5",
   server: false
 
 # In test we don't send emails

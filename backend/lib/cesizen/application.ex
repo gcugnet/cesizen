@@ -10,7 +10,8 @@ defmodule Cesizen.Application do
     children = [
       CesizenWeb.Telemetry,
       Cesizen.Repo,
-      {DNSCluster, query: Application.get_env(:cesizen, :dns_cluster_query) || :ignore},
+      {DNSCluster,
+       query: Application.get_env(:cesizen, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Cesizen.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: Cesizen.Finch},
