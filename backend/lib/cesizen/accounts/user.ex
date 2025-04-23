@@ -7,6 +7,16 @@ defmodule Cesizen.Accounts.User do
 
   json_api do
     type "user"
+
+    routes do
+      base "/users"
+
+      get :read
+      index :read
+      post :create
+      patch :update
+      delete :destroy
+    end
   end
 
   postgres do
