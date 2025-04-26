@@ -149,6 +149,12 @@
                 help = "Stops the local instance of PostgreSQL";
                 command = builtins.readFile ./scripts/stop-db;
               }
+
+              {
+                name = "reset-db";
+                help = "Reset the cesizen_dev Postgres database instance";
+                command = builtins.readFile ./scripts/reset-db;
+              }
             ];
           };
         };

@@ -23,9 +23,11 @@ config :cesizen, CesizenWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "fhEw/jdIP9T+8RPbUdYe8TkKc4gpgF16s55ni4dRSw7nj27JyL3Axgkt1Bl/hJSa",
+  secret_key_base:
+    "fhEw/jdIP9T+8RPbUdYe8TkKc4gpgF16s55ni4dRSw7nj27JyL3Axgkt1Bl/hJSa",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:cesizen, ~w(--sourcemap=inline --watch)]},
+    esbuild:
+      {Esbuild, :install_and_run, [:cesizen, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:cesizen, ~w(--watch)]}
   ]
 

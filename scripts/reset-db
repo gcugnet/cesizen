@@ -1,0 +1,41 @@
+#!/bin/sh
+
+BOLD_MAGENTA="\033[1;35m"
+BOLD_GREEN="\033[1;32m"
+BOLD_RED="\033[1;31m"
+NC="\033[0m"
+
+print_error() {
+    printf "${BOLD_RED}Error: command failed with status $STATUS${NC}\n"
+}
+
+printf "${BOLD_MAGENTA}Running mix ash.reset…${NC}\n"
+
+if [ $PWD = "/home/guillaume/Informatique/CESI/cesizen" ]; then
+    cd backend && mix ash.reset
+    STATUS=$?
+    if [ $STATUS -ne 0 ]; then
+        print_error
+        exit $STATUS
+    fi
+fi
+
+if [ $PWD = "/home/guillaume/Informatique/CESI/cesizen/backend" ]; then
+    mix ash.reset
+    STATUS=$?
+    if [ $STATUS -ne 0 ]; then
+        print_error
+        exit $STATUS
+    fi
+fi
+
+printf "${BOLD_MAGENTA}Seeding the database…${NC}\n"
+
+mix run priv/repo/seeds.exs
+STATUS=$?
+    if [ $STATUS -ne 0 ]; then
+        print_error
+        exit $STATUS
+    fi
+
+printf "${BOLD_GREEN}Database successfully reset and seeded!${NC}\n"

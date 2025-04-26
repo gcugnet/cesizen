@@ -1,0 +1,7 @@
+{
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": false,
+    "editor.formatOnType": false,
+    "elixirLS.autoBuild": false
+
+}
