@@ -9,3 +9,9 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Cesizen.Accounts
+
+Accounts.create_user!(%{name: "Guillaume", email: "guillaume@cugnet.eu", role: :admin})
+
+Accounts.create_user!(%{name: "Hervé", email: "herve@proton.me", role: :user})
