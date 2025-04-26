@@ -337,6 +337,7 @@ version = "0.1.0"
 dependencies = [
  "reqwest",
  "serde",
+ "thiserror 2.0.12",
 ]
 
 [[package]]
