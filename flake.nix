@@ -97,6 +97,7 @@
 
               # Rust toolchain.
               rust-toolchain
+              rust-analyzer
 
               # Dioxus.
               dioxus-cli
