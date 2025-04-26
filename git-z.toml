@@ -55,6 +55,7 @@ list = [
     "B:API:Docs",   # Backend: API Documents
     "B:API:Emos",   # Backend: API Emotions
     "B:API:Users",  # Backend: API Users
+    "B:DB",         # Backend: Database
     "B:R:Category", # Backend: Model Category
     "B:R:Doc",      # Backend: Model Document
     "B:R:Emo",      # Backend: Model Emotion
