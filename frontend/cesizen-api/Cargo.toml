@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+cesizen-helpers = { path = "../cesizen-helpers" }
 reqwest = { version = "0.12.15", default-features = false, features = [
     "json",
     "rustls-tls",

@@ -1,3 +1,4 @@
+use cesizen_helpers::tracing::LogResult;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
@@ -19,13 +20,13 @@ enum Role {
 
 #[derive(Debug, Error)]
 pub enum ListError {
-    #[error("An error occurred during the API request.")]
+    #[error("An error occurred during the list users API request.")]
     ApiError(#[from] super::ApiError),
     #[error("Failed to parse users.")]
-    ParseError(#[from] serde_json::Error),
-    #[error("Failed to format response.")]
+    ParseError(#[source] serde_json::Error),
+    #[error("Failed to format list users response.")]
     FormatError,
-    #[error("An unknown error occurred.")]
+    #[error("An unknown error occurred while listing users.")]
     UnknownError(Vec<json_api::Error>),
 }
 
@@ -39,12 +40,15 @@ impl User {
                     let users: Vec<User> = items
                         .iter()
                         .map(|item| serde_json::from_value(item.attributes.clone()))
-                        .collect::<Result<Vec<User>, serde_json::Error>>()?;
+                        .collect::<Result<Vec<User>, serde_json::Error>>()
+                        .map_err(ListError::ParseError)
+                        .log_err()?;
+
                     Ok(users)
                 }
-                json_api::ResponseData::Resource(_) => Err(ListError::FormatError),
+                json_api::ResponseData::Resource(_) => Err(ListError::FormatError).log_err(),
             },
-            json_api::Response::Error { errors } => Err(ListError::UnknownError(errors)),
+            json_api::Response::Error { errors } => Err(ListError::UnknownError(errors)).log_err(),
         }
     }
 }

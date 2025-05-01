@@ -2,6 +2,7 @@ pub mod user;
 
 mod json_api;
 
+use cesizen_helpers::tracing::LogResult as _;
 use reqwest::{Client, Response, StatusCode};
 use thiserror::Error;
 
@@ -20,7 +21,7 @@ pub enum ApiError {
     #[error("An unknown error occurred.")]
     UnknownError,
     #[error("An error occurrend during the API request.")]
-    RequestError(#[from] reqwest::Error),
+    RequestError(#[source] reqwest::Error),
 }
 
 impl CesizenApi {
@@ -37,7 +38,9 @@ impl CesizenApi {
             .client
             .get(format!("{}/{}", &self.base_url, endpoint))
             .send()
-            .await?;
+            .await
+            .map_err(ApiError::RequestError)
+            .log_err()?; // Returns if ReqwestError
 
         self.handle_response(response).await
     }
@@ -46,7 +49,11 @@ impl CesizenApi {
     async fn handle_response(&self, response: Response) -> Result<json_api::Response, ApiError> {
         match response.status() {
             StatusCode::OK | StatusCode::CREATED | StatusCode::ACCEPTED => {
-                let json_response = response.json::<json_api::Response>().await?;
+                let json_response = response
+                    .json::<json_api::Response>()
+                    .await
+                    .map_err(ApiError::RequestError)
+                    .log_err()?;
 
                 Ok(json_response)
             }

@@ -335,6 +335,7 @@ dependencies = [
 name = "cesizen-api"
 version = "0.1.0"
 dependencies = [
+ "cesizen-helpers",
  "reqwest",
  "serde",
  "serde_json",
