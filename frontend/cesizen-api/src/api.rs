@@ -1,3 +1,5 @@
+pub mod user;
+
 mod json_api;
 
 use reqwest::{Client, Response, StatusCode};
