@@ -226,6 +226,15 @@ defmodule Cesizen.Accounts.User do
   end
 
   authentication do
+    tokens do
+      enabled? true
+      token_resource Cesizen.Accounts.Token
+
+      signing_secret fn _, _ ->
+        Application.fetch_env(:cesizen, :token_signing_secret)
+      end
+    end
+
     strategies do
       password :password do
         identity_field :email

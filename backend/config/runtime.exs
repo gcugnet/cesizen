@@ -66,6 +66,12 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
+  # TODO: Configure the environment variable for production.
+  config :cesizen,
+    token_signing_secret:
+      System.get_env("TOKEN_SIGNING_SECRET") ||
+        raise("TOKEN_SIGNING_SECRET environment variable is required")
+
   # ## SSL Support
   #
   # To get SSL working, you will need to add the `https` key

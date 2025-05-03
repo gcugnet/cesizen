@@ -67,6 +67,8 @@ config :cesizen, CesizenWeb.Endpoint,
 # Enable dev routes for dashboard and mailbox
 config :cesizen, dev_routes: true
 
+config :cesizen, token_signing_secret: "development_secret"
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 
