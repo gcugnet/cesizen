@@ -12,6 +12,16 @@
 
 alias Cesizen.Accounts
 
-Accounts.create_user!(%{name: "Guillaume", email: "guillaume@cugnet.eu", role: :admin})
+Accounts.create_user!(%{
+  name: "Guillaume",
+  email: "guillaume@cugnet.eu",
+  password: "AdminAdmin",
+  role: :admin
+})
 
-Accounts.create_user!(%{name: "Hervé", email: "herve@proton.me", role: :user})
+Accounts.create_user!(%{
+  name: "Hervé",
+  email: "herve@proton.me",
+  password: "UserUser",
+  role: :user
+})

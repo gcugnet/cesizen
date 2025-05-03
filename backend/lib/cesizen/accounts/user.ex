@@ -51,8 +51,47 @@ defmodule Cesizen.Accounts.User do
     identity :unique_email, [:email]
   end
 
+  code_interface do
+    define :login, action: :sign_in_with_password
+  end
+
   actions do
-    defaults [:read, :destroy, create: :*, update: :*]
+    defaults [:read, :destroy, update: :*]
+
+    create :create do
+      description "Creates a new user and validates it.
+        For admin convenience only."
+
+      argument :name, :ci_string do
+        allow_nil? false
+      end
+
+      argument :email, :ci_string do
+        allow_nil? false
+      end
+
+      argument :password, :string do
+        description "The proposed password for the user, in plain text."
+        allow_nil? false
+        constraints min_length: 8
+        sensitive? true
+      end
+
+      argument :role, :atom
+
+      change set_context(%{strategy_name: :password})
+      change set_attribute(:name, arg(:name))
+      change set_attribute(:email, arg(:email))
+      change set_attribute(:role, arg(:role))
+
+      change AshAuthentication.Strategy.Password.HashPasswordChange
+      change AshAuthentication.GenerateTokenChange
+
+      metadata :token, :string do
+        description "A JWT that can be used to authenticate the user."
+        allow_nil? false
+      end
+    end
 
     update :change_password do
       # Use this action to allow users to change their password by providing
@@ -257,6 +296,7 @@ defmodule Cesizen.Accounts.User do
         confirmed_at_field :confirmed_at
 
         auto_confirm_actions [
+          :create,
           :sign_in_with_magic_link,
           :reset_password_with_token
         ]
