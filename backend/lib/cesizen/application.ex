@@ -18,7 +18,8 @@ defmodule Cesizen.Application do
       # Start a worker by calling: Cesizen.Worker.start_link(arg)
       # {Cesizen.Worker, arg},
       # Start to serve requests, typically the last entry
-      CesizenWeb.Endpoint
+      CesizenWeb.Endpoint,
+      {AshAuthentication.Supervisor, [otp_app: :cesizen]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
