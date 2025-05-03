@@ -50,6 +50,7 @@ list = [
     "G:F", # Global: Frontend
 
     # Project backend scopes
+    "B:Auth",       # Backend: Authentication
     "B:API",        # Backend: API
     "B:API:Cats",   # Backend: API Categories
     "B:API:Docs",   # Backend: API Documents
@@ -64,6 +65,7 @@ list = [
     "B:Router",     # Backend: Router
 
     # Project frontend scopes
+    "F:Auth",      # Frontend: Authentication
     "F:API",       # Frontend: API
     "F:API:Cats",  # Frontend: API Categories
     "F:API:Docs",  # Frontend: API Documents
