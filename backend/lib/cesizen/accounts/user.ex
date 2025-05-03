@@ -11,6 +11,14 @@ defmodule Cesizen.Accounts.User do
     routes do
       base "/users"
 
+      post :sign_in_with_password do
+        route "/login"
+
+        metadata fn _subject, user, _request ->
+          %{token: user.__metadata__.token}
+        end
+      end
+
       get :read
       index :read
       post :create
