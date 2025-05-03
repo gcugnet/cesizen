@@ -10,5 +10,7 @@ defmodule Cesizen.Accounts do
       define :update_user, action: :update
       define :delete_user, action: :destroy
     end
+
+    resource Cesizen.Accounts.Token
   end
 end
