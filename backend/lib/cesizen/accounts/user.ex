@@ -3,6 +3,7 @@ defmodule Cesizen.Accounts.User do
     otp_app: :cesizen,
     domain: Cesizen.Accounts,
     extensions: [AshAuthentication, AshJsonApi.Resource],
+    authorizers: [Ash.Policy.Authorizer],
     data_layer: AshPostgres.DataLayer
 
   json_api do
@@ -302,6 +303,20 @@ defmodule Cesizen.Accounts.User do
 
         sender Cesizen.Accounts.User.Senders.SendNewUserConfirmationEmail
       end
+    end
+  end
+
+  policies do
+    bypass AshAuthentication.Checks.AshAuthenticationInteraction do
+      authorize_if always()
+    end
+
+    policy action(:read) do
+      authorize_if actor_attribute_equals(:role, :admin)
+    end
+
+    policy action(:sign_in_with_password) do
+      authorize_if always()
     end
   end
 end
