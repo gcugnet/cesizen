@@ -38,6 +38,9 @@ config :spark,
     ]
   ]
 
+config :ash,
+  allow_forbidden_field_for_relationships_by_default?: true
+
 config :cesizen,
   ecto_repos: [Cesizen.Repo],
   generators: [timestamp_type: :utc_datetime],
