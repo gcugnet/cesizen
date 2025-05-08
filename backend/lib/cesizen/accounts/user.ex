@@ -7,24 +7,6 @@ defmodule Cesizen.Accounts.User do
 
   json_api do
     type "user"
-
-    routes do
-      base "/users"
-
-      post :sign_in_with_password do
-        route "/login"
-
-        metadata fn _subject, user, _request ->
-          %{token: user.__metadata__.token}
-        end
-      end
-
-      get :read
-      index :read
-      post :create
-      patch :update
-      delete :destroy
-    end
   end
 
   postgres do
