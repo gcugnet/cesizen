@@ -72,6 +72,11 @@ if config_env() == :prod do
       System.get_env("TOKEN_SIGNING_SECRET") ||
         raise("TOKEN_SIGNING_SECRET environment variable is required")
 
+  config :ash,
+    policies: [
+      log_policy_breakdowns: :error
+    ]
+
   # ## SSL Support
   #
   # To get SSL working, you will need to add the `https` key
