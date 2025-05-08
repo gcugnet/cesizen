@@ -115,7 +115,7 @@ impl CesizenApi {
         });
 
         let response = self
-            .post("users/login", body)
+            .post("login", body)
             .await
             .map_err(LoginError::RequestError)
             .log_err()?;
