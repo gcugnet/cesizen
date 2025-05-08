@@ -31,6 +31,10 @@ pub enum ListError {
 }
 
 impl User {
+    pub fn name(&self) -> &str {
+        &self.name
+    }
+
     pub async fn list(api: &CesizenApi) -> Result<Vec<User>, ListError> {
         let response = api.get("users").await?; // Returns if ApiError
 

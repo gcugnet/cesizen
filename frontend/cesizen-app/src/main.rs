@@ -1,8 +1,9 @@
+use cesizen_api::api::CesizenApi;
 // The dioxus prelude contains a ton of common items used in dioxus apps. It's a good idea to import wherever you
 // need dioxus
 use dioxus::prelude::*;
 
-use views::{Blog, Home, Navbar, Test};
+use views::{Blog, Home, Login, Navbar, Test};
 
 /// Define a components module that contains all shared components for our app.
 mod components;
@@ -33,6 +34,9 @@ enum Route {
 
         #[route("/test")]
         Test {},
+
+        #[route("/login")]
+        Login {},
 }
 
 // We can import assets in dioxus with the `asset!` macro. This macro takes a path to an asset relative to the crate root.
@@ -40,6 +44,8 @@ enum Route {
 const FAVICON: Asset = asset!("/assets/favicon.ico");
 // The asset macro also minifies some assets like CSS and JS to make bundled smaller
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
+
+static API: GlobalSignal<cesizen_api::api::CesizenApi> = Signal::global(CesizenApi::new);
 
 fn main() {
     // The `launch` function is the main entry point for a dioxus app. It takes a component and renders it with the platform feature
