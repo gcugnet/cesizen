@@ -12,6 +12,7 @@ pub fn Navbar() -> Element {
         div { id: "navbar", class: "navbar bg-base-100 shadow-sm",
             Link { class: "btn btn-ghost text-xl", to: Route::Home {}, "Home" }
             Link { class: "btn btn-ghost text-xl", to: Route::Blog { id: 1 }, "Blog" }
+            Link { class: "btn btn-ghost text-xl", to: Route::Test {}, "Test" }
         }
 
         // The `Outlet` component is used to render the next component inside the layout. In this case, it will render either
