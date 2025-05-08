@@ -318,5 +318,9 @@ defmodule Cesizen.Accounts.User do
     policy action(:sign_in_with_password) do
       authorize_if always()
     end
+
+    policy action(:create) do
+      authorize_if actor_attribute_equals(:seeder, true)
+    end
   end
 end
