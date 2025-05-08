@@ -49,5 +49,12 @@ defmodule CesizenWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+
+  plug Corsica,
+    origins: ["http://127.0.0.1:8080"],
+    allow_headers: ["content-type", "authorization"],
+    allow_methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    max_age: 7200
+
   plug CesizenWeb.Router
 end
