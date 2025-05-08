@@ -1,6 +1,8 @@
 defmodule CesizenWeb.Router do
   use CesizenWeb, :router
 
+  import AshAuthentication.Plug.Helpers
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -12,6 +14,8 @@ defmodule CesizenWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :retrieve_from_bearer, :cesizen
+    plug :set_actor, :user
   end
 
   scope "/api/v1" do

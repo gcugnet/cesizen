@@ -67,6 +67,8 @@ config :cesizen, CesizenWeb.Endpoint,
 # Enable dev routes for dashboard and mailbox
 config :cesizen, dev_routes: true
 
+config :cesizen, token_signing_secret: "development_secret"
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 
@@ -85,3 +87,12 @@ config :phoenix_live_view,
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+config :ash,
+  allow_forbidden_field_for_relationships_by_default?: true,
+  policies: [
+    show_policy_breakdowns?: true,
+    help_text?: false,
+    log_policy_breakdowns: :error
+    # log_successful_policy_breakdowns: :error
+  ]

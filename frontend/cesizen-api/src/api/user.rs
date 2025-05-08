@@ -24,7 +24,7 @@ pub enum ListError {
     ApiError(#[from] super::ApiError),
     #[error("Failed to parse users.")]
     ParseError(#[source] serde_json::Error),
-    #[error("Failed to format list users response.")]
+    #[error("The list user response's format don’t match this application requirements.")]
     FormatError,
     #[error("An unknown error occurred while listing users.")]
     UnknownError(Vec<json_api::Error>),
@@ -35,7 +35,7 @@ impl User {
         let response = api.get("users").await?; // Returns if ApiError
 
         match response {
-            json_api::Response::Success { data } => match data {
+            json_api::Response::Success { data, .. } => match data {
                 json_api::ResponseData::Collection(items) => {
                     let users: Vec<User> = items
                         .iter()
