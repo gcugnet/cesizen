@@ -346,6 +346,7 @@ dependencies = [
 name = "cesizen-app"
 version = "0.1.0"
 dependencies = [
+ "cesizen-api",
  "dioxus",
 ]
 
