@@ -157,6 +157,12 @@
                 help = "Reset the cesizen_dev Postgres database instance";
                 command = builtins.readFile ./scripts/reset-db;
               }
+
+              {
+                name = "start-tailwind";
+                help = "Starts the Tailwind watcher";
+                command = builtins.readFile ./scripts/start-tailwind;
+              }
             ];
           };
         };
