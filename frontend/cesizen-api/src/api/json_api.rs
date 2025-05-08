@@ -6,6 +6,7 @@ pub enum Response {
     Success {
         data: ResponseData,
         // included: Vec<serde_json::Value>,
+        meta: serde_json::Value,
     },
     Error {
         errors: Vec<Error>,
@@ -26,6 +27,11 @@ pub struct Data {
     pub relationships: serde_json::Value,
     #[serde(rename = "type")]
     pub resource_name: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct LoginMeta {
+    pub token: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

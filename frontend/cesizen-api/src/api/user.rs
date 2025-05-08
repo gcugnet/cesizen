@@ -35,7 +35,7 @@ impl User {
         let response = api.get("users").await?; // Returns if ApiError
 
         match response {
-            json_api::Response::Success { data } => match data {
+            json_api::Response::Success { data, .. } => match data {
                 json_api::ResponseData::Collection(items) => {
                     let users: Vec<User> = items
                         .iter()
