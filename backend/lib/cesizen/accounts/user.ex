@@ -258,15 +258,24 @@ defmodule Cesizen.Accounts.User do
     tokens do
       enabled? true
       token_resource Cesizen.Accounts.Token
+      store_all_tokens? true
+      require_token_presence_for_authentication? true
 
       signing_secret fn _, _ ->
         Application.fetch_env(:cesizen, :token_signing_secret)
+      end
+
+      add_ons do
+        log_out_everywhere do
+          apply_on_password_change? true
+        end
       end
     end
 
     strategies do
       password :password do
         identity_field :email
+        # sign_in_tokens_enabled? true
 
         resettable do
           sender Cesizen.Accounts.User.Senders.SendPasswordResetEmail
