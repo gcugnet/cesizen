@@ -24,7 +24,7 @@ pub enum ListError {
     ApiError(#[from] super::ApiError),
     #[error("Failed to parse users.")]
     ParseError(#[source] serde_json::Error),
-    #[error("Failed to format list users response.")]
+    #[error("The list user response's format don’t match this application requirements.")]
     FormatError,
     #[error("An unknown error occurred while listing users.")]
     UnknownError(Vec<json_api::Error>),
