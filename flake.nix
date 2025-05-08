@@ -102,6 +102,7 @@
               # Dioxus.
               dioxus-cli
               wasm-bindgen-cli_0_2_100
+              nodejs_23 # Needed to start Tailwind watcher
             ];
 
             env = [
