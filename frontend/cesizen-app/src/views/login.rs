@@ -13,8 +13,8 @@ enum LoginState {
 
 #[component]
 pub fn Login() -> Element {
-    let mut email = use_signal(|| "".to_string());
-    let mut password = use_signal(|| "".to_string());
+    let email = use_signal(|| "".to_string());
+    let password = use_signal(|| "".to_string());
     let mut state = use_signal(LoginState::default);
 
     let login = move |_| {
@@ -53,30 +53,45 @@ pub fn Login() -> Element {
         div { class: "m-8 flex flex-col text-xl items-center", "Page de connexion" }
 
         div { class: "flex flex-col items-center",
-            fieldset { class: "fieldset",
-                legend { class: "fieldset-legend", "Email" }
-                input {
-                    id: "email",
-                    r#type: "text",
-                    class: "input",
-                    placeholder: "test@test.com",
-                    value: "{email}",
-                    oninput: move |event| email.set(event.value()),
-                }
-            }
+            LoginForm { email, password, onclick: login }
+        }
+    }
+}
 
-            fieldset { class: "fieldset",
-                legend { class: "fieldset-legend", "Mot de passe" }
-                input {
-                    id: "email",
-                    r#type: "password",
-                    class: "input",
-                    value: "{password}",
-                    oninput: move |event| password.set(event.value()),
-                }
+#[component]
+fn LoginForm(
+    email: Signal<String>,
+    password: Signal<String>,
+    onclick: EventHandler<MouseEvent>,
+) -> Element {
+    rsx! {
+        fieldset { class: "fieldset",
+            legend { class: "fieldset-legend", "Email" }
+            input {
+                id: "email",
+                r#type: "text",
+                class: "input",
+                placeholder: "test@test.com",
+                value: "{email}",
+                oninput: move |event| email.set(event.value()),
             }
+        }
 
-            button { class: "mx-4 mt-4 btn btn-primary", onclick: login, "Se connecter" }
+        fieldset { class: "fieldset",
+            legend { class: "fieldset-legend", "Mot de passe" }
+            input {
+                id: "password", // Fixed ID
+                r#type: "password",
+                class: "input",
+                value: "{password}",
+                oninput: move |event| password.set(event.value()),
+            }
+        }
+
+        button {
+            class: "mx-4 mt-4 btn btn-primary",
+            onclick: move |event| onclick.call(event),
+            "Se connecter"
         }
     }
 }
