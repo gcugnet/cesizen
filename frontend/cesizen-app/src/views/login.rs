@@ -56,10 +56,8 @@ pub fn Login() -> Element {
 
         div { class: "flex flex-col items-center",
             UserForm {
-                email,
-                password,
-                show_email_field: true,
-                show_password_field: true,
+                email: Some(email),
+                password: Some(password),
                 button_message,
                 onclick: login,
             }
