@@ -21,7 +21,6 @@ pub fn Register() -> Element {
     let email = use_signal(|| "".to_string());
     let password = use_signal(|| "".to_string());
     let password_confirmation = use_signal(|| "".to_string());
-    let button_message = "Créer un compte".to_string();
     let mut state = use_signal(RegisterState::default);
 
     let register = move |_| {
@@ -60,25 +59,26 @@ pub fn Register() -> Element {
             }
         }
 
-        div { class: "m-8 flex flex-col text-xl items-center", "Page de création de compte" }
-
-        div { class: "flex flex-col items-center",
-            UserForm {
-                name: Some(name),
-                email: Some(email),
-                password: Some(password),
-                password_confirmation: Some(password_confirmation),
-                button_message,
-                onclick: register,
+        div { class: "h-full flex flex-col items-center justify-center",
+            div { class: "flex flex-col items-center",
+                UserForm {
+                    name: Some(name),
+                    email: Some(email),
+                    password: Some(password),
+                    password_confirmation: Some(password_confirmation),
+                    fieldset_label: "Formulaire de création de compte".to_string(),
+                    button_message: "Créer un compte".to_string(),
+                    onclick: register,
+                }
             }
-        }
 
-        div { class: "m-8 flex flex-col text-xs font-medium items-center",
-            "Vous avez déjà un compte ?"
-            Link {
-                class: "mx-4 mt-2 btn btn-sm btn-secondary",
-                to: Route::Login {},
-                "Se connecter"
+            div { class: "m-8 flex flex-col text-xs font-medium items-center",
+                "Vous avez déjà un compte ?"
+                Link {
+                    class: "mx-4 mt-2 btn btn-sm btn-secondary",
+                    to: Route::Login {},
+                    "Se connecter"
+                }
             }
         }
     }

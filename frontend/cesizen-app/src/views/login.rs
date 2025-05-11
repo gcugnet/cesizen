@@ -16,7 +16,6 @@ enum LoginState {
 pub fn Login() -> Element {
     let email = use_signal(|| "".to_string());
     let password = use_signal(|| "".to_string());
-    let button_message = "Se connecter".to_string();
     let mut state = use_signal(LoginState::default);
 
     let login = move |_| {
@@ -52,23 +51,24 @@ pub fn Login() -> Element {
             }
         }
 
-        div { class: "m-8 flex flex-col text-xl items-center", "Page de connexion" }
-
-        div { class: "flex flex-col items-center",
-            UserForm {
-                email: Some(email),
-                password: Some(password),
-                button_message,
-                onclick: login,
+        div { class: "h-full grow flex flex-col items-center justify-center",
+            div { class: "flex flex-col items-center",
+                UserForm {
+                    email: Some(email),
+                    password: Some(password),
+                    fieldset_label: "Formulaire de connexion".to_string(),
+                    button_message: "Se connecter".to_string(),
+                    onclick: login,
+                }
             }
-        }
 
-        div { class: "m-8 flex flex-col text-xs font-medium items-center",
-            "Vous n’avez pas encore de compte ?"
-            Link {
-                class: "mx-4 mt-2 btn btn-sm btn-secondary",
-                to: Route::Register {},
-                "Créer un compte"
+            div { class: "m-8 flex flex-col text-xs font-medium items-center",
+                "Vous n’avez pas encore de compte ?"
+                Link {
+                    class: "mx-4 mt-2 btn btn-sm btn-secondary",
+                    to: Route::Register {},
+                    "Créer un compte"
+                }
             }
         }
     }
