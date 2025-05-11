@@ -1,5 +1,5 @@
-use crate::components::UserForm;
 use crate::API;
+use crate::{components::UserForm, Route};
 use cesizen_api::api::{user::User, LoginInfo};
 use dioxus::prelude::*;
 
@@ -60,6 +60,15 @@ pub fn Login() -> Element {
                 password: Some(password),
                 button_message,
                 onclick: login,
+            }
+        }
+
+        div { class: "m-8 flex flex-col text-xs font-medium items-center",
+            "Vous n’avez pas encore de compte ?"
+            Link {
+                class: "mx-4 mt-2 btn btn-sm btn-secondary",
+                to: Route::Register {},
+                "Créer un compte"
             }
         }
     }

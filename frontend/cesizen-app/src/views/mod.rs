@@ -22,3 +22,6 @@ pub use test::Test;
 
 mod login;
 pub use login::Login;
+
+mod register;
+pub use register::Register;
