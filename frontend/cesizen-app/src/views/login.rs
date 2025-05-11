@@ -1,3 +1,4 @@
+use crate::components::UserForm;
 use crate::API;
 use cesizen_api::api::{user::User, LoginInfo};
 use dioxus::prelude::*;
@@ -15,6 +16,7 @@ enum LoginState {
 pub fn Login() -> Element {
     let email = use_signal(|| "".to_string());
     let password = use_signal(|| "".to_string());
+    let button_message = "Se connecter".to_string();
     let mut state = use_signal(LoginState::default);
 
     let login = move |_| {
@@ -53,45 +55,14 @@ pub fn Login() -> Element {
         div { class: "m-8 flex flex-col text-xl items-center", "Page de connexion" }
 
         div { class: "flex flex-col items-center",
-            LoginForm { email, password, onclick: login }
-        }
-    }
-}
-
-#[component]
-fn LoginForm(
-    email: Signal<String>,
-    password: Signal<String>,
-    onclick: EventHandler<MouseEvent>,
-) -> Element {
-    rsx! {
-        fieldset { class: "fieldset",
-            legend { class: "fieldset-legend", "Email" }
-            input {
-                id: "email",
-                r#type: "text",
-                class: "input",
-                placeholder: "test@test.com",
-                value: "{email}",
-                oninput: move |event| email.set(event.value()),
+            UserForm {
+                email,
+                password,
+                show_email_field: true,
+                show_password_field: true,
+                button_message,
+                onclick: login,
             }
-        }
-
-        fieldset { class: "fieldset",
-            legend { class: "fieldset-legend", "Mot de passe" }
-            input {
-                id: "password", // Fixed ID
-                r#type: "password",
-                class: "input",
-                value: "{password}",
-                oninput: move |event| password.set(event.value()),
-            }
-        }
-
-        button {
-            class: "mx-4 mt-4 btn btn-primary",
-            onclick: move |event| onclick.call(event),
-            "Se connecter"
         }
     }
 }
