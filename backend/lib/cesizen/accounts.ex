@@ -13,6 +13,10 @@ defmodule Cesizen.Accounts do
             %{token: user.__metadata__.token}
           end
         end
+
+        post :register_with_password do
+          route "/register"
+        end
       end
 
       base_route "/users", User do
