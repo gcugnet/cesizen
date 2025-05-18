@@ -30,8 +30,8 @@ pub enum ApiError {
     RequestError(#[source] reqwest::Error),
 }
 
-pub enum LoginInfo {
-    Password { email: String, password: String },
+pub enum LoginInfo<'a> {
+    Password { email: &'a str, password: &'a str },
 }
 
 #[derive(Debug, Error)]
@@ -90,7 +90,7 @@ impl CesizenApi {
     /// Logs a User in.
     ///
     /// Could handle different types of login.
-    pub async fn login(&mut self, login_infos: LoginInfo) -> Result<User, LoginError> {
+    pub async fn login(&mut self, login_infos: LoginInfo<'_>) -> Result<User, LoginError> {
         match login_infos {
             LoginInfo::Password { email, password } => {
                 self.login_with_password(email, password).await
@@ -101,8 +101,8 @@ impl CesizenApi {
     /// Logs a User in with email and password.
     async fn login_with_password(
         &mut self,
-        email: String,
-        password: String,
+        email: &str,
+        password: &str,
     ) -> Result<User, LoginError> {
         let body = json!({
             "data": {

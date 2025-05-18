@@ -13,11 +13,11 @@ pub struct User {
 }
 
 #[derive(Debug, Serialize)]
-pub struct UserParams {
-    name: String,
-    email: String,
-    password: String,
-    password_confirmation: String,
+pub struct UserParams<'a> {
+    name: &'a str,
+    email: &'a str,
+    password: &'a str,
+    password_confirmation: &'a str,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -59,7 +59,7 @@ impl User {
     /// Registers a user with a `name`, `email`, `password` and `password_confirmation`.
     pub async fn register(
         api: &CesizenApi,
-        user_params: UserParams,
+        user_params: UserParams<'_>,
     ) -> Result<User, RegisterError> {
         let attributes = serde_json::to_value(user_params)
             .map_err(RegisterError::ParseError)
@@ -112,12 +112,12 @@ impl User {
     }
 }
 
-impl UserParams {
+impl<'a> UserParams<'a> {
     pub fn new(
-        name: String,
-        email: String,
-        password: String,
-        password_confirmation: String,
+        name: &'a str,
+        email: &'a str,
+        password: &'a str,
+        password_confirmation: &'a str,
     ) -> Self {
         Self {
             name,

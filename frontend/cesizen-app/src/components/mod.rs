@@ -3,7 +3,7 @@
 //! component  to be used in our app.
 
 mod hero;
-mod user_form;
-
 pub use hero::Hero;
+
+pub mod user_form;
 pub use user_form::UserForm;

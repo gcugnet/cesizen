@@ -1,3 +1,6 @@
+use std::collections::HashMap;
+
+use crate::components::user_form::{event_to_hashmap_string, Config, Fields}; // Import the types directly
 use crate::API;
 use crate::{components::UserForm, Route};
 use cesizen_api::api::{user::User, LoginInfo};
@@ -14,23 +17,39 @@ enum LoginState {
 
 #[component]
 pub fn Login() -> Element {
-    let email = use_signal(|| "".to_string());
-    let password = use_signal(|| "".to_string());
     let mut state = use_signal(LoginState::default);
 
-    let login = move |_| {
+    let user_form_config = Config {
+        login_form: true,
+        fields: vec![Fields::Email, Fields::Password],
+    };
+
+    let values: Signal<HashMap<String, dioxus::events::FormValue>> = use_signal(HashMap::new);
+
+    let login = move |event: Event<FormData>| async move {
         state.set(LoginState::Loading);
+
+        let formatted_data = event_to_hashmap_string(&event);
+
         spawn(async move {
             match API
                 .write()
                 .login(LoginInfo::Password {
-                    email: email.to_string(),
-                    password: password.to_string(),
+                    email: formatted_data
+                        .get("email")
+                        .unwrap_or(&Default::default())
+                        .as_str(),
+                    password: formatted_data
+                        .get("password")
+                        .unwrap_or(&Default::default())
+                        .as_str(),
                 })
                 .await
             {
                 Ok(user) => state.set(LoginState::Success(user)),
-                Err(e) => state.set(LoginState::Error(e.to_string())),
+                Err(_e) => state.set(LoginState::Error(
+                    "Nom d’utilisateur ou mot de passe invalide.".to_string(),
+                )),
             }
         });
     };
@@ -52,14 +71,15 @@ pub fn Login() -> Element {
         }
 
         div { class: "h-full grow flex flex-col items-center justify-center",
-            div { class: "flex flex-col items-center",
+            div { class: "h-full grow flex flex-col items-center justify-center",
                 UserForm {
-                    email: Some(email),
-                    password: Some(password),
+                    values,
+                    config: user_form_config,
                     fieldset_label: "Formulaire de connexion".to_string(),
-                    button_message: "Se connecter".to_string(),
-                    onclick: login,
+                    button_text: "Se connecter".to_string(),
+                    action: login,
                 }
+
             }
 
             div { class: "m-8 flex flex-col text-xs font-medium items-center",
