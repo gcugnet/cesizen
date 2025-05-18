@@ -164,6 +164,11 @@ defmodule Cesizen.Accounts.User do
     create :register_with_password do
       description "Register a new user with a email and password."
 
+      argument :name, :ci_string do
+        description "The user name."
+        allow_nil? false
+      end
+
       argument :email, :ci_string do
         allow_nil? false
       end
@@ -180,6 +185,9 @@ defmodule Cesizen.Accounts.User do
         allow_nil? false
         sensitive? true
       end
+
+      # Sets the name from the argument
+      change set_attribute(:name, arg(:name))
 
       # Sets the email from the argument
       change set_attribute(:email, arg(:email))
@@ -297,6 +305,7 @@ defmodule Cesizen.Accounts.User do
 
         auto_confirm_actions [
           :create,
+          :register_with_password,
           :sign_in_with_magic_link,
           :reset_password_with_token
         ]
@@ -315,8 +324,12 @@ defmodule Cesizen.Accounts.User do
       authorize_if actor_attribute_equals(:role, :admin)
     end
 
-    policy action(:sign_in_with_password) do
+    policy action([:sign_in_with_password, :register_with_password]) do
       authorize_if always()
+    end
+
+    policy action(:create) do
+      authorize_if actor_attribute_equals(:seeder, true)
     end
   end
 end

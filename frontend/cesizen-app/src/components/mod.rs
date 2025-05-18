@@ -4,3 +4,6 @@
 
 mod hero;
 pub use hero::Hero;
+
+pub mod user_form;
+pub use user_form::UserForm;

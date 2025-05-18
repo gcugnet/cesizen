@@ -1,5 +1,6 @@
 [workspace]
 members = ["cesizen-api", "cesizen-app", "cesizen-helpers"]
+resolver = "2"
 
 [profile]
 

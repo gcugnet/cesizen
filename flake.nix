@@ -102,6 +102,7 @@
               # Dioxus.
               dioxus-cli
               wasm-bindgen-cli_0_2_100
+              nodejs_23 # Needed to start Tailwind watcher
             ];
 
             env = [
@@ -155,6 +156,12 @@
                 name = "reset-db";
                 help = "Reset the cesizen_dev Postgres database instance";
                 command = builtins.readFile ./scripts/reset-db;
+              }
+
+              {
+                name = "start-tailwind";
+                help = "Starts the Tailwind watcher";
+                command = builtins.readFile ./scripts/start-tailwind;
               }
             ];
           };

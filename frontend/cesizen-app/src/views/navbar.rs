@@ -1,8 +1,6 @@
 use crate::Route;
 use dioxus::prelude::*;
 
-const NAVBAR_CSS: Asset = asset!("/assets/styling/navbar.css");
-
 /// The Navbar component that will be rendered on all pages of our app since every page is under the layout.
 ///
 ///
@@ -11,18 +9,11 @@ const NAVBAR_CSS: Asset = asset!("/assets/styling/navbar.css");
 #[component]
 pub fn Navbar() -> Element {
     rsx! {
-        document::Link { rel: "stylesheet", href: NAVBAR_CSS }
-
-        div {
-            id: "navbar",
-            Link {
-                to: Route::Home {},
-                "Home"
-            }
-            Link {
-                to: Route::Blog { id: 1 },
-                "Blog"
-            }
+        div { id: "navbar", class: "navbar bg-base-100 shadow-sm",
+            Link { class: "btn btn-ghost text-xl", to: Route::Home {}, "Home" }
+            Link { class: "btn btn-ghost text-xl", to: Route::Blog { id: 1 }, "Blog" }
+            Link { class: "btn btn-ghost text-xl", to: Route::Test {}, "Test" }
+            Link { class: "btn btn-ghost text-xl", to: Route::Login {}, "Login" }
         }
 
         // The `Outlet` component is used to render the next component inside the layout. In this case, it will render either

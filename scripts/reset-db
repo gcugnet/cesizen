@@ -11,7 +11,7 @@ print_error() {
 
 printf "${BOLD_MAGENTA}Running mix ash.reset…${NC}\n"
 
-if [ $PWD = "/home/guillaume/Informatique/CESI/cesizen" ]; then
+if [ -d "./backend/cesizen" ]
     cd backend && mix ash.reset
     STATUS=$?
     if [ $STATUS -ne 0 ]; then
@@ -20,7 +20,7 @@ if [ $PWD = "/home/guillaume/Informatique/CESI/cesizen" ]; then
     fi
 fi
 
-if [ $PWD = "/home/guillaume/Informatique/CESI/cesizen/backend" ]; then
+if [ -d "./cesizen" ]; then
     mix ash.reset
     STATUS=$?
     if [ $STATUS -ne 0 ]; then
