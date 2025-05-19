@@ -5,6 +5,8 @@ defmodule Cesizen.Emotions.Emotion do
     extensions: [AshJsonApi.Resource],
     data_layer: AshPostgres.DataLayer
 
+  require Ash.Query
+
   json_api do
     type "emotion"
   end
@@ -26,10 +28,44 @@ defmodule Cesizen.Emotions.Emotion do
   end
 
   relationships do
-    belongs_to :basic_emotion, Cesizen.Emotions.BasicEmotion
+    belongs_to :basic_emotion, Cesizen.Emotions.BasicEmotion do
+      public? true
+    end
   end
 
   actions do
-    defaults [:read, :destroy, create: [:name], update: [:name]]
+    defaults [:read, :destroy, update: [:name]]
+
+    create :create do
+      primary? true
+      description "Creates a new Emotion."
+
+      argument :basic_emotion, :uuid do
+        allow_nil? false
+      end
+
+      argument :name, :ci_string do
+        allow_nil? false
+      end
+
+      change manage_relationship(:basic_emotion, type: :append)
+      change set_attribute(:name, arg(:name))
+    end
+
+    read :list do
+      argument :basic_emotion, :uuid do
+      end
+
+      prepare fn query, _context ->
+        case Ash.Query.fetch_argument(query, :basic_emotion) do
+          {:ok, basic_emotion} ->
+            query
+            |> Ash.Query.filter(basic_emotion_id == ^basic_emotion)
+
+          _ ->
+            query
+        end
+      end
+    end
   end
 end
