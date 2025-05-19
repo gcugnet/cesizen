@@ -1,6 +1,3 @@
-alias Cesizen.Users.UserEmotion
-alias Cesizen.Emotions.Emotion
-
 defmodule Cesizen.Users.User do
   use Ash.Resource,
     otp_app: :cesizen,
@@ -8,6 +5,9 @@ defmodule Cesizen.Users.User do
     extensions: [AshAuthentication, AshJsonApi.Resource],
     authorizers: [Ash.Policy.Authorizer],
     data_layer: AshPostgres.DataLayer
+
+  alias Cesizen.Users.UserEmotion
+  alias Cesizen.Emotions.Emotion
 
   json_api do
     type "user"
@@ -72,6 +72,10 @@ defmodule Cesizen.Users.User do
 
   actions do
     defaults [:read, :destroy, update: :*]
+
+    read :get do
+      get_by :id
+    end
 
     create :create do
       description "Creates a new user and validates it.
@@ -348,7 +352,11 @@ defmodule Cesizen.Users.User do
       authorize_if actor_attribute_equals(:role, :admin)
     end
 
-    policy action([:sign_in_with_password, :register_with_password]) do
+    policy action([
+             :sign_in_with_password,
+             :register_with_password,
+             :get
+           ]) do
       authorize_if always()
     end
 

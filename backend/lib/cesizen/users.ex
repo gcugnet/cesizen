@@ -1,7 +1,7 @@
-alias Cesizen.Users.User
-
 defmodule Cesizen.Users do
   use Ash.Domain, otp_app: :cesizen, extensions: [AshJsonApi.Domain]
+
+  alias Cesizen.Users.User
 
   json_api do
     routes do
@@ -20,7 +20,7 @@ defmodule Cesizen.Users do
       end
 
       base_route "/users", User do
-        get :read
+        get :get
         index :read
         post :create
         patch :update
@@ -31,8 +31,9 @@ defmodule Cesizen.Users do
 
   resources do
     resource User do
-      define :create, action: :create
       define :list, action: :read
+      define :get, action: :get
+      define :create, action: :create
       define :update, action: :update
       define :delete, action: :destroy
     end
