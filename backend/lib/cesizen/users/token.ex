@@ -1,7 +1,7 @@
-defmodule Cesizen.Accounts.Token do
+defmodule Cesizen.Users.Token do
   use Ash.Resource,
     otp_app: :cesizen,
-    domain: Cesizen.Accounts,
+    domain: Cesizen.Users,
     authorizers: [Ash.Policy.Authorizer],
     extensions: [AshAuthentication.TokenResource],
     data_layer: AshPostgres.DataLayer

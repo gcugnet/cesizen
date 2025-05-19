@@ -1,10 +1,13 @@
-defmodule Cesizen.Accounts.User do
+defmodule Cesizen.Users.User do
   use Ash.Resource,
     otp_app: :cesizen,
-    domain: Cesizen.Accounts,
+    domain: Cesizen.Users,
     extensions: [AshAuthentication, AshJsonApi.Resource],
     authorizers: [Ash.Policy.Authorizer],
     data_layer: AshPostgres.DataLayer
+
+  alias Cesizen.Users.UserEmotion
+  alias Cesizen.Emotions.Emotion
 
   json_api do
     type "user"
@@ -18,8 +21,20 @@ defmodule Cesizen.Accounts.User do
   attributes do
     uuid_primary_key :id
 
-    attribute :email, :ci_string, allow_nil?: false, public?: true
-    attribute :name, :ci_string, allow_nil?: false, public?: true
+    attribute :email, :ci_string do
+      allow_nil? false
+
+      constraints max_length: 254,
+                  match: ~r/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/
+
+      public? true
+    end
+
+    attribute :name, :ci_string do
+      allow_nil? false
+      constraints min_length: 3, max_length: 30
+      public? true
+    end
 
     attribute :role, :atom do
       allow_nil? false
@@ -32,10 +47,19 @@ defmodule Cesizen.Accounts.User do
 
     attribute :hashed_password, :string do
       allow_nil? false
+      constraints max_length: 128
       sensitive? true
     end
 
     attribute :confirmed_at, :utc_datetime_usec
+  end
+
+  relationships do
+    many_to_many :emotions, Emotion do
+      through UserEmotion
+      source_attribute_on_join_resource :user_id
+      destination_attribute_on_join_resource :emotion_id
+    end
   end
 
   identities do
@@ -48,6 +72,10 @@ defmodule Cesizen.Accounts.User do
 
   actions do
     defaults [:read, :destroy, update: :*]
+
+    read :get do
+      get_by :id
+    end
 
     create :create do
       description "Creates a new user and validates it.
@@ -266,7 +294,7 @@ defmodule Cesizen.Accounts.User do
   authentication do
     tokens do
       enabled? true
-      token_resource Cesizen.Accounts.Token
+      token_resource Cesizen.Users.Token
       store_all_tokens? true
       require_token_presence_for_authentication? true
 
@@ -287,7 +315,7 @@ defmodule Cesizen.Accounts.User do
         # sign_in_tokens_enabled? true
 
         resettable do
-          sender Cesizen.Accounts.User.Senders.SendPasswordResetEmail
+          sender Cesizen.Users.User.Senders.SendPasswordResetEmail
           # these configurations will be the default in a future release
           password_reset_action_name :reset_password_with_token
           request_password_reset_action_name :request_password_reset_token
@@ -310,7 +338,7 @@ defmodule Cesizen.Accounts.User do
           :reset_password_with_token
         ]
 
-        sender Cesizen.Accounts.User.Senders.SendNewUserConfirmationEmail
+        sender Cesizen.Users.User.Senders.SendNewUserConfirmationEmail
       end
     end
   end
@@ -324,7 +352,11 @@ defmodule Cesizen.Accounts.User do
       authorize_if actor_attribute_equals(:role, :admin)
     end
 
-    policy action([:sign_in_with_password, :register_with_password]) do
+    policy action([
+             :sign_in_with_password,
+             :register_with_password,
+             :get
+           ]) do
       authorize_if always()
     end
 
