@@ -22,10 +22,17 @@ defmodule Cesizen.Users do
       end
 
       base_route "/users", User do
-        get :get
         index :read
+        get :get
         post :create
         patch :update
+        delete :destroy
+      end
+
+      base_route "/users/emotions", UserEmotion do
+        index :list_user_emotions
+        get :get_user_emotion
+        post :add_user_emotion
         delete :destroy
       end
     end

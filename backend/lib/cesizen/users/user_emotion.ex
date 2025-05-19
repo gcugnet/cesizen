@@ -2,12 +2,18 @@ defmodule Cesizen.Users.UserEmotion do
   use Ash.Resource,
     otp_app: :cesizen,
     domain: Cesizen.Users,
+    extensions: [AshJsonApi.Resource],
     data_layer: AshPostgres.DataLayer
 
   alias Cesizen.Emotions.Emotion
   alias Cesizen.Users.User
 
   require Ash.Query
+
+  json_api do
+    type "user_emotion"
+  end
+
   postgres do
     table "user_emotions"
     repo Cesizen.Repo
