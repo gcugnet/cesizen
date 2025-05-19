@@ -12,7 +12,7 @@
 
 alias Cesizen.Users
 
-Users.create_user!(
+Users.create!(
   %{
     name: "Guillaume",
     email: "guillaume@cugnet.eu",
@@ -22,7 +22,7 @@ Users.create_user!(
   actor: %{seeder: true}
 )
 
-Users.create_user!(
+Users.creater!(
   %{
     name: "Hervé",
     email: "herve@proton.me",
