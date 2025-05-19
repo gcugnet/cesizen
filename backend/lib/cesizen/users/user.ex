@@ -1,3 +1,6 @@
+alias Cesizen.Users.UserEmotion
+alias Cesizen.Emotions.Emotion
+
 defmodule Cesizen.Users.User do
   use Ash.Resource,
     otp_app: :cesizen,
@@ -49,6 +52,14 @@ defmodule Cesizen.Users.User do
     end
 
     attribute :confirmed_at, :utc_datetime_usec
+  end
+
+  relationships do
+    many_to_many :emotions, Emotion do
+      through UserEmotion
+      source_attribute_on_join_resource :user_id
+      destination_attribute_on_join_resource :emotion_id
+    end
   end
 
   identities do

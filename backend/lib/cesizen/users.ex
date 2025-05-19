@@ -38,5 +38,6 @@ defmodule Cesizen.Users do
     end
 
     resource Cesizen.Users.Token
+    resource Cesizen.Users.UserEmotion
   end
 end
