@@ -3,5 +3,6 @@ defmodule Cesizen.Emotions do
 
   resources do
     resource Cesizen.Emotions.BasicEmotion
+    resource Cesizen.Emotions.Emotion
   end
 end
