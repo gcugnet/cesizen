@@ -47,3 +47,57 @@ environment.
     ```
 
 4. **Congratulations 🥳**, you can play with the application!
+
+## Documentation
+
+### Backend
+
+#### Entity-Relationship Diagram
+
+```mermaid
+---
+title: CesiZen relations
+---
+
+erDiagram
+    USER ||--o{ EMOTION_LOG : "one to many"
+    EMOTION ||--o{ EMOTION_LOG : "one to many"
+    BASIC_EMOTION ||--o{ EMOTION : "one to many"
+    CATEGORY ||--o{ DOCUMENT : "has many"
+    USER {
+        id uuid PK "required"
+        name ci_string "required"
+        email ci_string "required, unique"
+        password string "required, sensitive"
+        role atom "required, default :user"
+    }
+    BASIC_EMOTION {
+        id uuid PK "required"
+        name ci_string "required, unique"
+    }
+    EMOTION {
+        id uuid PK "required"
+        basic_emotion_id uuid FK "required"
+        name ci_string "required, unique"
+    }
+    EMOTION_LOG {
+        id uuid PK "required"
+        user_id uuid FK "required"
+        emotion_id uuid FK "required"
+        created_at timestamp "required"
+        updated_at timestamp "required"
+    }
+    CATEGORY {
+        id uuid PK "required"
+        name ci_string "required, unique"
+        description string
+    }
+    DOCUMENT {
+        id uuid PK "required"
+        category_id uuid FK "required"
+        type atom "required, :text or :image"
+        title string "required"
+        content string
+    }
+
+```
