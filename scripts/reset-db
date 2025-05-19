@@ -11,7 +11,7 @@ print_error() {
 
 printf "${BOLD_MAGENTA}Running mix ash.reset…${NC}\n"
 
-if [ -d "./backend/cesizen" ]
+if [ -d "./backend/cesizen" ]; then
     cd backend && mix ash.reset
     STATUS=$?
     if [ $STATUS -ne 0 ]; then
