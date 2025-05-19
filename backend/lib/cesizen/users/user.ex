@@ -1,7 +1,7 @@
-defmodule Cesizen.Accounts.User do
+defmodule Cesizen.Users.User do
   use Ash.Resource,
     otp_app: :cesizen,
-    domain: Cesizen.Accounts,
+    domain: Cesizen.Users,
     extensions: [AshAuthentication, AshJsonApi.Resource],
     authorizers: [Ash.Policy.Authorizer],
     data_layer: AshPostgres.DataLayer
@@ -279,7 +279,7 @@ defmodule Cesizen.Accounts.User do
   authentication do
     tokens do
       enabled? true
-      token_resource Cesizen.Accounts.Token
+      token_resource Cesizen.Users.Token
       store_all_tokens? true
       require_token_presence_for_authentication? true
 
@@ -300,7 +300,7 @@ defmodule Cesizen.Accounts.User do
         # sign_in_tokens_enabled? true
 
         resettable do
-          sender Cesizen.Accounts.User.Senders.SendPasswordResetEmail
+          sender Cesizen.Users.User.Senders.SendPasswordResetEmail
           # these configurations will be the default in a future release
           password_reset_action_name :reset_password_with_token
           request_password_reset_action_name :request_password_reset_token
@@ -323,7 +323,7 @@ defmodule Cesizen.Accounts.User do
           :reset_password_with_token
         ]
 
-        sender Cesizen.Accounts.User.Senders.SendNewUserConfirmationEmail
+        sender Cesizen.Users.User.Senders.SendNewUserConfirmationEmail
       end
     end
   end

@@ -1,6 +1,6 @@
-defmodule Cesizen.Accounts.User.Senders.SendPasswordResetEmail do
+defmodule Cesizen.Users.User.Senders.SendNewUserConfirmationEmail do
   @moduledoc """
-  Sends a password reset email
+  Sends an email for a new user to confirm their email address.
   """
 
   use AshAuthentication.Sender
@@ -16,17 +16,17 @@ defmodule Cesizen.Accounts.User.Senders.SendPasswordResetEmail do
     # TODO: Replace with your email
     |> from({"noreply", "noreply@example.com"})
     |> to(to_string(user.email))
-    |> subject("Reset your password")
+    |> subject("Confirm your email address")
     |> html_body(body(token: token))
     |> Mailer.deliver!()
   end
 
   defp body(_params) do
     # TODO: implement route
-    # url = url(~p"/password-reset/#{params[:token]}")
+    # url = url(~p"/confirm_new_user/#{params[:token]}")
 
     # """
-    # <p>Click this link to reset your password:</p>
+    # <p>Click this link to confirm your email:</p>
     # <p><a href="#{url}">#{url}</a></p>
     # """
   end

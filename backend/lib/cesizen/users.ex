@@ -1,6 +1,6 @@
-alias Cesizen.Accounts.User
+alias Cesizen.Users.User
 
-defmodule Cesizen.Accounts do
+defmodule Cesizen.Users do
   use Ash.Domain, otp_app: :cesizen, extensions: [AshJsonApi.Domain]
 
   json_api do
@@ -37,6 +37,6 @@ defmodule Cesizen.Accounts do
       define :delete_user, action: :destroy
     end
 
-    resource Cesizen.Accounts.Token
+    resource Cesizen.Users.Token
   end
 end

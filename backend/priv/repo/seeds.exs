@@ -10,9 +10,9 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-alias Cesizen.Accounts
+alias Cesizen.Users
 
-Accounts.create_user!(
+Users.create_user!(
   %{
     name: "Guillaume",
     email: "guillaume@cugnet.eu",
@@ -22,7 +22,7 @@ Accounts.create_user!(
   actor: %{seeder: true}
 )
 
-Accounts.create_user!(
+Users.create_user!(
   %{
     name: "Hervé",
     email: "herve@proton.me",
