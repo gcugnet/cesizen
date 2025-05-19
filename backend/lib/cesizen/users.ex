@@ -1,7 +1,9 @@
 defmodule Cesizen.Users do
   use Ash.Domain, otp_app: :cesizen, extensions: [AshJsonApi.Domain]
 
+  alias Cesizen.Users.Token
   alias Cesizen.Users.User
+  alias Cesizen.Users.UserEmotion
 
   json_api do
     routes do
@@ -38,7 +40,13 @@ defmodule Cesizen.Users do
       define :delete, action: :destroy
     end
 
-    resource Cesizen.Users.Token
-    resource Cesizen.Users.UserEmotion
+    resource UserEmotion do
+      define :add_emotion, action: :add_user_emotion
+      define :list_emotions, action: :list_user_emotions
+      define :get_emotion, action: :get_user_emotion
+      define :delete_emotion, action: :destroy
+    end
+
+    resource Token
   end
 end
