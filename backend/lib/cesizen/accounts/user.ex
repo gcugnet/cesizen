@@ -18,8 +18,20 @@ defmodule Cesizen.Accounts.User do
   attributes do
     uuid_primary_key :id
 
-    attribute :email, :ci_string, allow_nil?: false, public?: true
-    attribute :name, :ci_string, allow_nil?: false, public?: true
+    attribute :email, :ci_string do
+      allow_nil? false
+
+      constraints max_length: 254,
+                  match: ~r/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/
+
+      public? true
+    end
+
+    attribute :name, :ci_string do
+      allow_nil? false
+      constraints min_length: 3, max_length: 30
+      public? true
+    end
 
     attribute :role, :atom do
       allow_nil? false
@@ -32,6 +44,7 @@ defmodule Cesizen.Accounts.User do
 
     attribute :hashed_password, :string do
       allow_nil? false
+      constraints max_length: 128
       sensitive? true
     end
 
