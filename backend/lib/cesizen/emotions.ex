@@ -4,6 +4,24 @@ defmodule Cesizen.Emotions do
   alias Cesizen.Emotions.Emotion
   alias Cesizen.Emotions.BasicEmotion
 
+  json_api do
+    routes do
+      base_route "/basic-emotions", BasicEmotion do
+        index :read
+        post :create
+        patch :update
+        delete :destroy
+      end
+
+      base_route "/emotions", Emotion do
+        index :read
+        post :create
+        patch :update
+        delete :destroy
+      end
+    end
+  end
+
   resources do
     resource BasicEmotion do
       define :list_basic, action: :read
