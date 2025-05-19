@@ -44,7 +44,7 @@ config :ash,
 config :cesizen,
   ecto_repos: [Cesizen.Repo],
   generators: [timestamp_type: :utc_datetime],
-  ash_domains: [Cesizen.Accounts]
+  ash_domains: [Cesizen.Emotions, Cesizen.Accounts]
 
 # Configures the endpoint
 config :cesizen, CesizenWeb.Endpoint,
