@@ -7,3 +7,6 @@ pub use hero::Hero;
 
 pub mod user_form;
 pub use user_form::UserForm;
+
+pub mod not_found;
+pub use not_found::NotFound;
