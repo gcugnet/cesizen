@@ -29,6 +29,10 @@ defmodule Cesizen.Information.Category do
     timestamps()
   end
 
+  identities do
+    identity :unique_name, [:name]
+  end
+
   actions do
     defaults [
       :read,
