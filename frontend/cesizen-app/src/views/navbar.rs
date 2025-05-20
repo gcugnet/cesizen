@@ -1,4 +1,4 @@
-use crate::Route;
+use crate::{Route, CURRENT_USER};
 use dioxus::prelude::*;
 
 /// The Navbar component that will be rendered on all pages of our app since every page is under the layout.
@@ -10,10 +10,23 @@ use dioxus::prelude::*;
 pub fn Navbar() -> Element {
     rsx! {
         div { id: "navbar", class: "navbar bg-base-100 shadow-sm",
-            Link { class: "btn btn-ghost text-xl", to: Route::Home {}, "Home" }
-            Link { class: "btn btn-ghost text-xl", to: Route::Blog { id: 1 }, "Blog" }
-            Link { class: "btn btn-ghost text-xl", to: Route::Test {}, "Test" }
-            Link { class: "btn btn-ghost text-xl", to: Route::Login {}, "Login" }
+            div { class: "navbar-start",
+                Link { class: "btn btn-ghost text-xl", to: Route::Home {greetings: false}, "Home" }
+                Link { class: "btn btn-ghost text-xl", to: Route::Blog { id: 1 }, "Blog" }
+                Link { class: "btn btn-ghost text-xl", to: Route::Test {}, "Test" }
+            }
+            div { class: "navbar-end",
+                if let None = &*CURRENT_USER.read() {
+                    Link { class: "btn btn-ghost text-xl", to: Route::Login {}, "Login" }
+                } else {
+                    Link {
+                        class: "btn btn-ghost text-xl",
+                        to: Route::MyAccount {},
+                        {}
+                        "Mon compte"
+                    }
+                }
+            }
         }
 
         // The `Outlet` component is used to render the next component inside the layout. In this case, it will render either
