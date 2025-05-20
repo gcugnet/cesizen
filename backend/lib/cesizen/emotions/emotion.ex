@@ -33,6 +33,10 @@ defmodule Cesizen.Emotions.Emotion do
     end
   end
 
+  identities do
+    identity :unique_name, [:name]
+  end
+
   actions do
     defaults [:read, :destroy, update: [:name]]
 
