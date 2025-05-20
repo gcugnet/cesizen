@@ -40,5 +40,9 @@ defmodule Cesizen.Information.Category do
       create: [:name, :description],
       update: [:name, :description]
     ]
+
+    read :get do
+      get_by :id
+    end
   end
 end

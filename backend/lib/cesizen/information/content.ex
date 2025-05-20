@@ -52,6 +52,26 @@ defmodule Cesizen.Information.Content do
       update: :*
     ]
 
+    read :list do
+      argument :category, :uuid do
+      end
+
+      prepare fn query, _context ->
+        case Ash.Query.fetch_argument(query, :category) do
+          {:ok, category} ->
+            query
+            |> Ash.Query.filter(category_id == ^category)
+
+          _ ->
+            query
+        end
+      end
+    end
+
+    read :get do
+      get_by :id
+    end
+
     create :create do
       primary? true
       description "Creates a new Information.Content."
@@ -84,22 +104,6 @@ defmodule Cesizen.Information.Content do
 
           _ ->
             changeset
-        end
-      end
-    end
-
-    read :list do
-      argument :category, :uuid do
-      end
-
-      prepare fn query, _context ->
-        case Ash.Query.fetch_argument(query, :category) do
-          {:ok, category} ->
-            query
-            |> Ash.Query.filter(category_id == ^category)
-
-          _ ->
-            query
         end
       end
     end
