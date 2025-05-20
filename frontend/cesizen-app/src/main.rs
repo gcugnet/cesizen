@@ -1,12 +1,14 @@
+use cesizen_api::api::user::User;
 use cesizen_api::api::CesizenApi;
 // The dioxus prelude contains a ton of common items used in dioxus apps. It's a good idea to import wherever you
 // need dioxus
 use dioxus::prelude::*;
 
-use views::{Blog, Home, Login, Navbar, Register, Test};
+use views::{Blog, Home, Login, MyAccount, Navbar, Register, Test};
 
 /// Define a components module that contains all shared components for our app.
 mod components;
+use crate::components::NotFound;
 /// Define a views module that contains the UI for all Layouts and Routes for our app.
 mod views;
 
@@ -24,7 +26,7 @@ enum Route {
         // The route attribute defines the URL pattern that a specific route matches. If that pattern matches the URL,
         // the component for that route will be rendered. The component name that is rendered defaults to the variant name.
         #[route("/")]
-        Home {},
+        Home { greetings: bool },
         // The route attribute can include dynamic parameters that implement [`std::str::FromStr`] and [`std::fmt::Display`] with the `:` syntax.
         // In this case, id will match any integer like `/blog/123` or `/blog/-456`.
         #[route("/blog/:id")]
@@ -40,6 +42,12 @@ enum Route {
 
         #[route("/register")]
         Register {},
+
+        #[route("/my-account")]
+        MyAccount {},
+
+        #[route("/:..route")]
+        NotFound {route: Vec<String>},
 }
 
 // We can import assets in dioxus with the `asset!` macro. This macro takes a path to an asset relative to the crate root.
@@ -49,6 +57,8 @@ const FAVICON: Asset = asset!("/assets/favicon.ico");
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 
 static API: GlobalSignal<cesizen_api::api::CesizenApi> = Signal::global(CesizenApi::new);
+
+static CURRENT_USER: GlobalSignal<Option<User>> = Signal::global(|| None);
 
 fn main() {
     // The `launch` function is the main entry point for a dioxus app. It takes a component and renders it with the platform feature
