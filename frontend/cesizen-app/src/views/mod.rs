@@ -25,3 +25,6 @@ pub use login::Login;
 
 mod register;
 pub use register::Register;
+
+mod my_account;
+pub use my_account::MyAccount;
