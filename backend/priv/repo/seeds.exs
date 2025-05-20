@@ -119,12 +119,20 @@ Users.add_emotion!(%{emotion: frustration.id}, actor: user)
 # ---------------------------------------------------------------------------- #
 
 help =
-  Information.create_category!(%{name: "Aide"},
+  Information.create_category!(
+    %{
+      name: "Aide",
+      description: "Ressources pour guider sur l’utilisation de l’application."
+    },
     actor: admin
   )
 
 article =
-  Information.create_category!(%{name: "Articles sur la santé mentale"},
+  Information.create_category!(
+    %{
+      name: "Articles",
+      description: "Articles sur le thème de la santé mentale."
+    },
     actor: admin
   )
 
