@@ -12,6 +12,7 @@
 
 alias Cesizen.Users
 alias Cesizen.Emotions
+alias Cesizen.Information
 
 # ---------------------------------------------------------------------------- #
 #                                    USERS                                     #
@@ -112,3 +113,72 @@ Emotions.create!(%{basic_emotion: disgust.id, name: "Dégoût profond"},
 Users.add_emotion!(%{emotion: pride.id}, actor: user)
 Users.add_emotion!(%{emotion: contentment.id}, actor: user)
 Users.add_emotion!(%{emotion: frustration.id}, actor: user)
+
+# ---------------------------------------------------------------------------- #
+#                                INFORMATION                                   #
+# ---------------------------------------------------------------------------- #
+
+help =
+  Information.create_category!(%{name: "Aide"},
+    actor: admin
+  )
+
+article =
+  Information.create_category!(%{name: "Articles sur la santé mentale"},
+    actor: admin
+  )
+
+Information.create!(
+  %{
+    category: help.id,
+    title: "Fonctionnement de l’application",
+    body: """
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    """
+  },
+  actor: admin
+)
+
+Information.create!(
+  %{
+    category: article.id,
+    title: "Articles sur la santé mentale",
+    body: """
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    """
+  },
+  actor: admin
+)
