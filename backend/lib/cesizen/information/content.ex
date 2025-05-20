@@ -24,6 +24,8 @@ defmodule Cesizen.Information.Content do
 
     attribute :type, :atom do
       allow_nil? false
+      constraints one_of: [:text, :image]
+      default :text
       public? true
     end
 
@@ -36,15 +38,17 @@ defmodule Cesizen.Information.Content do
   end
 
   relationships do
-    belongs_to :category, Cesizen.Information.Category
+    belongs_to :category, Cesizen.Information.Category do
+      public? true
+    end
   end
 
   actions do
     defaults [
       :read,
       :destroy,
-      create: [:title, :type, :body],
-      update: [:title, :type, :body]
+      create: :*,
+      update: :*
     ]
   end
 end
