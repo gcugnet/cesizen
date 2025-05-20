@@ -59,6 +59,14 @@ impl CesizenApi {
         }
     }
 
+    pub fn is_authenticated(&self) -> bool {
+        if let Some(_bearer) = &self.bearer_token {
+            return true;
+        }
+
+        false
+    }
+
     pub fn set_bearer_token(&mut self, bearer_token: String) {
         self.bearer_token = Some(bearer_token);
     }
@@ -148,6 +156,7 @@ impl CesizenApi {
         let response = self
             .client
             .get(format!("{}/{}", &self.base_url, endpoint))
+            .headers(self.set_headers())
             .send()
             .await
             .map_err(ApiError::RequestError)
