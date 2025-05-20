@@ -1,3 +1,4 @@
+use cesizen_api::api::user::User;
 use cesizen_api::api::CesizenApi;
 // The dioxus prelude contains a ton of common items used in dioxus apps. It's a good idea to import wherever you
 // need dioxus
@@ -53,6 +54,8 @@ const FAVICON: Asset = asset!("/assets/favicon.ico");
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 
 static API: GlobalSignal<cesizen_api::api::CesizenApi> = Signal::global(CesizenApi::new);
+
+static CURRENT_USER: GlobalSignal<Option<User>> = Signal::global(|| None);
 
 fn main() {
     // The `launch` function is the main entry point for a dioxus app. It takes a component and renders it with the platform feature
