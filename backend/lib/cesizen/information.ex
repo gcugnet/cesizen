@@ -3,5 +3,6 @@ defmodule Cesizen.Information do
 
   resources do
     resource Cesizen.Information.Category
+    resource Cesizen.Information.Content
   end
 end

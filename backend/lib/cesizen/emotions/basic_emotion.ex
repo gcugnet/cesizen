@@ -25,6 +25,10 @@ defmodule Cesizen.Emotions.BasicEmotion do
     timestamps()
   end
 
+  identities do
+    identity :unique_name, [:name]
+  end
+
   actions do
     defaults [:read, :destroy, create: [:name], update: [:name]]
   end

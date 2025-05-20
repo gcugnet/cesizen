@@ -63,7 +63,7 @@ erDiagram
     USER ||--o{ EMOTION_LOG : "one to many"
     EMOTION ||--o{ EMOTION_LOG : "one to many"
     BASIC_EMOTION ||--o{ EMOTION : "one to many"
-    CATEGORY ||--o{ DOCUMENT : "has many"
+    CATEGORY ||--o{ CONTENT : "has many"
     USER {
         id uuid PK "required"
         name ci_string "required"
@@ -92,12 +92,12 @@ erDiagram
         name ci_string "required, unique"
         description string
     }
-    DOCUMENT {
+    CONTENT {
         id uuid PK "required"
         category_id uuid FK "required"
         type atom "required, :text or :image"
         title string "required"
-        content string
+        body string
     }
 
 ```
