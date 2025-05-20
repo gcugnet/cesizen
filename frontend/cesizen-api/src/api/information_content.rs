@@ -16,6 +16,28 @@ pub enum ContentType {
 pub struct InformationContent {
     id: String,
     attributes: InformationContentAttributes,
+    #[serde(default)]
+    relationships: Relationships,
+    #[serde(skip)]
+    category: Option<InformationCategory>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Default)]
+pub struct Relationships {
+    #[serde(default)]
+    category: RelationshipData,
+}
+
+#[derive(Debug, Serialize, Deserialize, Default)]
+pub struct RelationshipData {
+    data: Option<ResourceIdentifier>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ResourceIdentifier {
+    id: String,
+    #[serde(rename = "type")]
+    resource_type: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -62,9 +84,9 @@ impl InformationContent {
         &self.attributes.category_id
     }
 
-    // pub fn category(&self) -> &Option<InformationCategory> {
-    //     &self.attributes.category
-    // }
+    pub fn category(&self) -> Option<&InformationCategory> {
+        self.category.as_ref()
+    }
 
     pub fn title(&self) -> &str {
         &self.attributes.title
@@ -101,15 +123,36 @@ impl InformationContent {
     }
 
     pub async fn get(api: &CesizenApi, id: &str) -> Result<InformationContent, GetError> {
-        let endpoint = format!("information/contents/{id}");
+        let endpoint = format!("information/contents/{id}?include=category");
         let response = api.get(&endpoint).await?;
 
         match response {
-            json_api::Response::Success { data, .. } => match data {
+            json_api::Response::Success { data, included, .. } => match data {
                 json_api::ResponseData::Resource(item) => {
-                    let content = serde_json::from_value(serde_json::to_value(item).unwrap())
-                        .map_err(GetError::ParseError)
-                        .log_err()?;
+                    let mut content: InformationContent =
+                        serde_json::from_value(serde_json::to_value(item).unwrap())
+                            .map_err(GetError::ParseError)
+                            .log_err()?;
+
+                    if let Some(included_data) = included {
+                        for include in included_data {
+                            if include.resource_name == "category"
+                                && Some(include.id.clone())
+                                    == content
+                                        .relationships
+                                        .category
+                                        .data
+                                        .as_ref()
+                                        .map(|d| d.id.clone())
+                            {
+                                content.category =
+                                    serde_json::from_value(serde_json::to_value(include).unwrap())
+                                        .map_err(GetError::ParseError)
+                                        .log_err()
+                                        .ok();
+                            }
+                        }
+                    }
 
                     Ok(content)
                 }
