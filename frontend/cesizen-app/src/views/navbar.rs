@@ -11,13 +11,17 @@ pub fn Navbar() -> Element {
     rsx! {
         div { id: "navbar", class: "navbar bg-base-100 shadow-sm",
             div { class: "navbar-start",
-                Link { class: "btn btn-ghost text-xl", to: Route::Home {greetings: false}, "Home" }
+                Link {
+                    class: "btn btn-ghost text-xl",
+                    to: Route::Home { greetings: false },
+                    "Accueil"
+                }
                 Link { class: "btn btn-ghost text-xl", to: Route::Blog { id: 1 }, "Blog" }
                 Link { class: "btn btn-ghost text-xl", to: Route::Test {}, "Test" }
             }
             div { class: "navbar-end",
                 if let None = &*CURRENT_USER.read() {
-                    Link { class: "btn btn-ghost text-xl", to: Route::Login {}, "Login" }
+                    Link { class: "btn btn-ghost text-xl", to: Route::Login {}, "Connexion" }
                 } else {
                     Link {
                         class: "btn btn-ghost text-xl",
