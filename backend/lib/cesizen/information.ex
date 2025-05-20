@@ -4,6 +4,24 @@ defmodule Cesizen.Information do
   alias Cesizen.Information.Content
   alias Cesizen.Information.Category
 
+  json_api do
+    routes do
+      base_route "/information/categories", Category do
+        index :read
+        post :create
+        patch :update
+        delete :destroy
+      end
+
+      base_route "/information/contents", Content do
+        index :list
+        post :create
+        patch :update
+        delete :destroy
+      end
+    end
+  end
+
   resources do
     resource Category do
       define :list_categories, action: :read
