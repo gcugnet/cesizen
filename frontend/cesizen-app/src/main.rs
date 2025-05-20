@@ -81,6 +81,6 @@ fn App() -> Element {
 
         // The router component renders the route enum we defined above. It will handle synchronization of the URL and render
         // the layouts and components for the active route.
-        div { class: "p-8", Router::<Route> {} }
+        div { class: "sm:p-8", Router::<Route> {} }
     }
 }
