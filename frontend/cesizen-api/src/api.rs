@@ -1,3 +1,5 @@
+pub mod information_category;
+pub mod information_content;
 pub mod user;
 
 mod json_api;
