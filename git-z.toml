@@ -59,6 +59,7 @@ list = [
     "B:API:Users",         # Backend: API Users
     "B:DB",                # Backend: Database
     "B:D:Emotions",        # Backend: Domain Users
+    "B:D:Information",     # Backend: Domain Users
     "B:D:Users",           # Backend: Domain Users
     "B:R:Category",        # Backend: Model Category
     "B:R:Content",         # Backend: Model Content

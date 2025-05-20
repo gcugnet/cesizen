@@ -12,8 +12,13 @@
 
 alias Cesizen.Users
 alias Cesizen.Emotions
+alias Cesizen.Information
 
-_admin =
+# ---------------------------------------------------------------------------- #
+#                                    USERS                                     #
+# ---------------------------------------------------------------------------- #
+
+admin =
   Users.create!(
     %{
       name: "Guillaume",
@@ -35,55 +40,145 @@ user =
     actor: %{seeder: true}
   )
 
-joy = Emotions.create_basic!(%{name: "Joie"})
-anger = Emotions.create_basic!(%{name: "Colère"})
-fear = Emotions.create_basic!(%{name: "Peur"})
-sadness = Emotions.create_basic!(%{name: "Tristesse"})
-surprise = Emotions.create_basic!(%{name: "Surprise"})
-disgust = Emotions.create_basic!(%{name: "Dégoût"})
+# ---------------------------------------------------------------------------- #
+#                                  EMOTIONS                                    #
+# ---------------------------------------------------------------------------- #
 
-pride = Emotions.create!(%{basic_emotion: joy.id, name: "Fierté"})
-contentment = Emotions.create!(%{basic_emotion: joy.id, name: "Contentement"})
-Emotions.create!(%{basic_emotion: joy.id, name: "Enchantement"})
-Emotions.create!(%{basic_emotion: joy.id, name: "Excitation"})
-Emotions.create!(%{basic_emotion: joy.id, name: "Émerveillement"})
-Emotions.create!(%{basic_emotion: joy.id, name: "Gratitude"})
+joy = Emotions.create_basic!(%{name: "Joie"}, actor: admin)
+anger = Emotions.create_basic!(%{name: "Colère"}, actor: admin)
+fear = Emotions.create_basic!(%{name: "Peur"}, actor: admin)
+sadness = Emotions.create_basic!(%{name: "Tristesse"}, actor: admin)
+surprise = Emotions.create_basic!(%{name: "Surprise"}, actor: admin)
+disgust = Emotions.create_basic!(%{name: "Dégoût"}, actor: admin)
+pride = Emotions.create!(%{basic_emotion: joy.id, name: "Fierté"}, actor: admin)
 
-frustration = Emotions.create!(%{basic_emotion: anger.id, name: "Frustration"})
-Emotions.create!(%{basic_emotion: anger.id, name: "Irritation"})
-Emotions.create!(%{basic_emotion: anger.id, name: "Rage"})
-Emotions.create!(%{basic_emotion: anger.id, name: "Ressentiment"})
-Emotions.create!(%{basic_emotion: anger.id, name: "Agacement"})
-Emotions.create!(%{basic_emotion: anger.id, name: "Hostilité"})
+contentment =
+  Emotions.create!(%{basic_emotion: joy.id, name: "Contentement"}, actor: admin)
 
-Emotions.create!(%{basic_emotion: fear.id, name: "Inquiétude"})
-Emotions.create!(%{basic_emotion: fear.id, name: "Anxiété"})
-Emotions.create!(%{basic_emotion: fear.id, name: "Terreur"})
-Emotions.create!(%{basic_emotion: fear.id, name: "Appréhension"})
-Emotions.create!(%{basic_emotion: fear.id, name: "Panique"})
-Emotions.create!(%{basic_emotion: fear.id, name: "Crainte"})
+Emotions.create!(%{basic_emotion: joy.id, name: "Enchantement"}, actor: admin)
+Emotions.create!(%{basic_emotion: joy.id, name: "Excitation"}, actor: admin)
+Emotions.create!(%{basic_emotion: joy.id, name: "Émerveillement"}, actor: admin)
+Emotions.create!(%{basic_emotion: joy.id, name: "Gratitude"}, actor: admin)
 
-Emotions.create!(%{basic_emotion: sadness.id, name: "Chagrin"})
-Emotions.create!(%{basic_emotion: sadness.id, name: "Mélancolie"})
-Emotions.create!(%{basic_emotion: sadness.id, name: "Abattement"})
-Emotions.create!(%{basic_emotion: sadness.id, name: "Désespoir"})
-Emotions.create!(%{basic_emotion: sadness.id, name: "Solitude"})
-Emotions.create!(%{basic_emotion: sadness.id, name: "Dépression"})
+frustration =
+  Emotions.create!(%{basic_emotion: anger.id, name: "Frustration"},
+    actor: admin
+  )
 
-Emotions.create!(%{basic_emotion: surprise.id, name: "Étonnement"})
-Emotions.create!(%{basic_emotion: surprise.id, name: "Stupéfaction"})
-Emotions.create!(%{basic_emotion: surprise.id, name: "Sidération"})
-Emotions.create!(%{basic_emotion: surprise.id, name: "Incrédule"})
-Emotions.create!(%{basic_emotion: surprise.id, name: "Émerveillement"})
-Emotions.create!(%{basic_emotion: surprise.id, name: "Confusion"})
+Emotions.create!(%{basic_emotion: anger.id, name: "Irritation"}, actor: admin)
+Emotions.create!(%{basic_emotion: anger.id, name: "Rage"}, actor: admin)
+Emotions.create!(%{basic_emotion: anger.id, name: "Ressentiment"}, actor: admin)
+Emotions.create!(%{basic_emotion: anger.id, name: "Agacement"}, actor: admin)
+Emotions.create!(%{basic_emotion: anger.id, name: "Hostilité"}, actor: admin)
 
-Emotions.create!(%{basic_emotion: disgust.id, name: "Répulsion"})
-Emotions.create!(%{basic_emotion: disgust.id, name: "Déplaisir"})
-Emotions.create!(%{basic_emotion: disgust.id, name: "Nausée"})
-Emotions.create!(%{basic_emotion: disgust.id, name: "Dédain"})
-Emotions.create!(%{basic_emotion: disgust.id, name: "Horreur"})
-Emotions.create!(%{basic_emotion: disgust.id, name: "Dégoût profond"})
+Emotions.create!(%{basic_emotion: fear.id, name: "Inquiétude"}, actor: admin)
+Emotions.create!(%{basic_emotion: fear.id, name: "Anxiété"}, actor: admin)
+Emotions.create!(%{basic_emotion: fear.id, name: "Terreur"}, actor: admin)
+Emotions.create!(%{basic_emotion: fear.id, name: "Appréhension"}, actor: admin)
+Emotions.create!(%{basic_emotion: fear.id, name: "Panique"}, actor: admin)
+Emotions.create!(%{basic_emotion: fear.id, name: "Crainte"}, actor: admin)
+
+Emotions.create!(%{basic_emotion: sadness.id, name: "Chagrin"}, actor: admin)
+Emotions.create!(%{basic_emotion: sadness.id, name: "Mélancolie"}, actor: admin)
+Emotions.create!(%{basic_emotion: sadness.id, name: "Abattement"}, actor: admin)
+Emotions.create!(%{basic_emotion: sadness.id, name: "Désespoir"}, actor: admin)
+Emotions.create!(%{basic_emotion: sadness.id, name: "Solitude"}, actor: admin)
+Emotions.create!(%{basic_emotion: sadness.id, name: "Dépression"}, actor: admin)
+
+Emotions.create!(%{basic_emotion: surprise.id, name: "Étonnement"},
+  actor: admin
+)
+
+Emotions.create!(%{basic_emotion: surprise.id, name: "Stupéfaction"},
+  actor: admin
+)
+
+Emotions.create!(%{basic_emotion: surprise.id, name: "Sidération"},
+  actor: admin
+)
+
+Emotions.create!(%{basic_emotion: surprise.id, name: "Incrédule"}, actor: admin)
+Emotions.create!(%{basic_emotion: surprise.id, name: "Confusion"}, actor: admin)
+
+Emotions.create!(%{basic_emotion: disgust.id, name: "Répulsion"}, actor: admin)
+Emotions.create!(%{basic_emotion: disgust.id, name: "Déplaisir"}, actor: admin)
+Emotions.create!(%{basic_emotion: disgust.id, name: "Nausée"}, actor: admin)
+Emotions.create!(%{basic_emotion: disgust.id, name: "Dédain"}, actor: admin)
+Emotions.create!(%{basic_emotion: disgust.id, name: "Horreur"}, actor: admin)
+
+Emotions.create!(%{basic_emotion: disgust.id, name: "Dégoût profond"},
+  actor: admin
+)
 
 Users.add_emotion!(%{emotion: pride.id}, actor: user)
 Users.add_emotion!(%{emotion: contentment.id}, actor: user)
 Users.add_emotion!(%{emotion: frustration.id}, actor: user)
+
+# ---------------------------------------------------------------------------- #
+#                                INFORMATION                                   #
+# ---------------------------------------------------------------------------- #
+
+help =
+  Information.create_category!(%{name: "Aide"},
+    actor: admin
+  )
+
+article =
+  Information.create_category!(%{name: "Articles sur la santé mentale"},
+    actor: admin
+  )
+
+Information.create!(
+  %{
+    category: help.id,
+    title: "Fonctionnement de l’application",
+    body: """
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    Long texte qui explique comment l’application fonctionne. \
+    """
+  },
+  actor: admin
+)
+
+Information.create!(
+  %{
+    category: article.id,
+    title: "Articles sur la santé mentale",
+    body: """
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    Long texte sur la santé mentale. Long texte sur la santé mentale. \
+    """
+  },
+  actor: admin
+)

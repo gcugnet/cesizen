@@ -5,6 +5,8 @@ defmodule Cesizen.Information.Content do
     extensions: [AshJsonApi.Resource],
     data_layer: AshPostgres.DataLayer
 
+  require Ash.Query
+
   json_api do
     type "content"
   end
@@ -47,8 +49,59 @@ defmodule Cesizen.Information.Content do
     defaults [
       :read,
       :destroy,
-      create: :*,
       update: :*
     ]
+
+    create :create do
+      primary? true
+      description "Creates a new Information.Content."
+
+      argument :category, :uuid do
+        allow_nil? false
+      end
+
+      argument :title, :string do
+        allow_nil? false
+      end
+
+      argument :body, :string do
+        allow_nil? false
+      end
+
+      argument :type, :atom do
+        allow_nil? true
+      end
+
+      change manage_relationship(:category, type: :append)
+      change set_attribute(:title, arg(:title))
+      change set_attribute(:body, arg(:body))
+
+      change fn changeset, _context ->
+        case Ash.Changeset.fetch_argument(changeset, :type) do
+          {:ok, type} ->
+            changeset
+            |> Ash.Changeset.change_attribute(:type, type)
+
+          _ ->
+            changeset
+        end
+      end
+    end
+
+    read :list do
+      argument :category, :uuid do
+      end
+
+      prepare fn query, _context ->
+        case Ash.Query.fetch_argument(query, :category) do
+          {:ok, category} ->
+            query
+            |> Ash.Query.filter(category_id == ^category)
+
+          _ ->
+            query
+        end
+      end
+    end
   end
 end
