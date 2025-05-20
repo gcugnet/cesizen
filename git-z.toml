@@ -53,7 +53,7 @@ list = [
     "B:Auth",              # Backend: Authentication
     "B:API",               # Backend: API
     "B:API:Categories",    # Backend: API Categories
-    "B:API:Documents",     # Backend: API Documents
+    "B:API:Contents",      # Backend: API Contents
     "B:API:BasicEmotions", # Backend: API BasicEmotions
     "B:API:Emotions",      # Backend: API Emotions
     "B:API:Users",         # Backend: API Users
@@ -61,7 +61,7 @@ list = [
     "B:D:Emotions",        # Backend: Domain Users
     "B:D:Users",           # Backend: Domain Users
     "B:R:Category",        # Backend: Model Category
-    "B:R:Document",        # Backend: Model Document
+    "B:R:Content",         # Backend: Model Content
     "B:R:BasicEmotions",   # Backend: Model BasicEmotion
     "B:R:Emotions",        # Backend: Model Emotion
     "B:R:User",            # Backend: Model User
@@ -71,12 +71,12 @@ list = [
     "F:Auth",              # Frontend: Authentication
     "F:API",               # Frontend: API
     "F:API:Categories",    # Frontend: API Categories
-    "F:API:Documents",     # Frontend: API Documents
+    "F:API:Contents",      # Frontend: API Contents
     "F:API:BasicEmotions", # Frontend: API Basic Emotions
     "F:API:Emotions",      # Frontend: API Emotions
     "F:API:Users",         # Frontend: API Users
     "F:S:Categories",      # Frontend: Screens Categories
-    "F:S:Documents",       # Frontend: Screens Documents
+    "F:S:Contents",        # Frontend: Screens Contents
     "F:S:Emotions",        # Frontend: Screens Emotions
     "F:S:Users",           # Frontend: Screens Users
     "F:Router",            # Frontend: Router
