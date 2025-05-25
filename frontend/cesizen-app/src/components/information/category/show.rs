@@ -40,7 +40,7 @@ pub fn Show(id: Uuid) -> Element {
                     // div { class: "container mx-auto px-4",
                     div { class: "flex flex-wrap gap-6 justify-center",
                         for content in contents.iter() {
-                            div { class: "mx-6 mb-6 card w-[40vw] bg-base-100 card-l shadow-sm",
+                            div { class: "mx-6 mb-6 card md:w-[80vw] lg:w-[40vw] 2xl:w-[30vw] bg-base-100 card-l shadow-sm",
                                 div { class: "card-body items-center text-center",
                                     div { class: "card-title", "{content.title()}" }
                                     p { "{content.body().preview(200)}" }
