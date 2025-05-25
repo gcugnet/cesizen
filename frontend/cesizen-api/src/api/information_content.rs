@@ -1,6 +1,7 @@
 use cesizen_helpers::tracing::LogResult;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
+use uuid::Uuid;
 
 use super::information_category::InformationCategory;
 use super::{CesizenApi, json_api};
@@ -14,7 +15,7 @@ pub enum ContentType {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct InformationContent {
-    id: String,
+    id: Uuid,
     attributes: InformationContentAttributes,
     #[serde(default)]
     relationships: Relationships,
@@ -76,7 +77,7 @@ pub enum GetError {
 
 impl InformationContent {
     // Getter methods
-    pub fn id(&self) -> &str {
+    pub fn id(&self) -> &Uuid {
         &self.id
     }
 
@@ -101,8 +102,17 @@ impl InformationContent {
     }
 
     // API functions
-    pub async fn list(api: &CesizenApi) -> Result<Vec<InformationContent>, ListError> {
-        let response = api.get("information/contents").await?;
+    pub async fn list(
+        api: &CesizenApi,
+        id: Option<&Uuid>,
+    ) -> Result<Vec<InformationContent>, ListError> {
+        let url = if let Some(category_id) = id {
+            format!("information/contents?category={}", category_id)
+        } else {
+            "information/contents".to_string()
+        };
+
+        let response = api.get(&url).await?;
 
         match response {
             json_api::Response::Success { data, .. } => match data {
@@ -122,7 +132,7 @@ impl InformationContent {
         }
     }
 
-    pub async fn get(api: &CesizenApi, id: &str) -> Result<InformationContent, GetError> {
+    pub async fn get(api: &CesizenApi, id: &Uuid) -> Result<InformationContent, GetError> {
         let endpoint = format!("information/contents/{id}?include=category");
         let response = api.get(&endpoint).await?;
 
