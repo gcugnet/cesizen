@@ -32,9 +32,7 @@ pub fn Show(id: Uuid) -> Element {
                 Some(Err(e)) => rsx! {
                     div { "Erreur lors de la récupération des catégories : {e}" }
                 },
-                None => rsx! {
-                    div { "Chargement ..." }
-                },
+                None => rsx! {},
             }
 
             match &*list_contents.read_unchecked() {
@@ -65,9 +63,7 @@ pub fn Show(id: Uuid) -> Element {
                 Some(Err(e)) => rsx! {
                     div { "Erreur lors de la récupération des catégories : {e}" }
                 },
-                None => rsx! {
-                    div { "Chargement ..." }
-                },
+                None => rsx! {},
             }
         }
     }

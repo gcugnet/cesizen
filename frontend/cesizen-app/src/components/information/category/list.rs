@@ -41,9 +41,7 @@ pub fn List() -> Element {
                 Some(Err(e)) => rsx! {
                     div { "Erreur lors de la récupération des catégories : {e}" }
                 },
-                None => rsx! {
-                    div { "Chargement ..." }
-                },
+                None => rsx! {},
             }
         }
     }
