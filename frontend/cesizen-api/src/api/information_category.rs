@@ -1,13 +1,14 @@
 use cesizen_helpers::tracing::LogResult;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
+use uuid::Uuid;
 
 use super::{CesizenApi, json_api};
 
 #[derive(Debug, Serialize, Deserialize)]
 
 pub struct InformationCategory {
-    id: String,
+    id: Uuid,
     attributes: InformationCategoryAttributes,
 }
 
@@ -42,7 +43,7 @@ pub enum GetError {
 }
 
 impl InformationCategory {
-    pub fn id(&self) -> &str {
+    pub fn id(&self) -> &Uuid {
         &self.id
     }
 
@@ -75,8 +76,8 @@ impl InformationCategory {
         }
     }
 
-    pub async fn get(api: &CesizenApi, id: &str) -> Result<InformationCategory, GetError> {
-        let endpoint = format!("information/categories/{id}");
+    pub async fn get(api: &CesizenApi, id: &Uuid) -> Result<InformationCategory, GetError> {
+        let endpoint = format!("information/categories/{}", id);
         let response = api.get(&endpoint).await?;
 
         match response {
