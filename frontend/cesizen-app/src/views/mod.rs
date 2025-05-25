@@ -11,14 +11,8 @@
 mod home;
 pub use home::Home;
 
-mod blog;
-pub use blog::Blog;
-
 mod navbar;
 pub use navbar::Navbar;
-
-mod test;
-pub use test::Test;
 
 mod login;
 pub use login::Login;

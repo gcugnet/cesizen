@@ -16,8 +16,6 @@ pub fn Navbar() -> Element {
                     to: Route::Home { greetings: false },
                     "Accueil"
                 }
-                Link { class: "btn btn-ghost text-xl", to: Route::Blog { id: 1 }, "Blog" }
-                Link { class: "btn btn-ghost text-xl", to: Route::Test {}, "Test" }
             }
             div { class: "navbar-end",
                 if let None = &*CURRENT_USER.read() {
