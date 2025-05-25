@@ -1,3 +1,4 @@
+use crate::utils::string::StringPreview;
 use cesizen_api::api::information_category::InformationCategory;
 use dioxus::prelude::*;
 
@@ -20,7 +21,7 @@ pub fn List() -> Element {
                                 div { class: "card-body items-center text-center",
                                     div { class: "card-title", "{category.name()}" }
                                     if let Some(description) = category.description() {
-                                        p { "{description}" }
+                                        p { "{description.preview(70)}" }
                                     }
                                     button {
                                         class: "mt-2 btn btn-primary",
