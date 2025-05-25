@@ -9,6 +9,7 @@ use views::{Blog, Category, Home, Login, MyAccount, Navbar, Register, Test};
 /// Define a components module that contains all shared components for our app.
 mod components;
 use crate::components::NotFound;
+mod utils;
 /// Define a views module that contains the UI for all Layouts and Routes for our app.
 mod views;
 
