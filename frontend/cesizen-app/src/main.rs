@@ -1,10 +1,10 @@
-use cesizen_api::api::user::User;
 use cesizen_api::api::CesizenApi;
+use cesizen_api::api::{user::User, uuid::Uuid};
 // The dioxus prelude contains a ton of common items used in dioxus apps. It's a good idea to import wherever you
 // need dioxus
 use dioxus::prelude::*;
 
-use views::{Blog, Home, Login, MyAccount, Navbar, Register, Test};
+use views::{Blog, Category, Home, Login, MyAccount, Navbar, Register, Test};
 
 /// Define a components module that contains all shared components for our app.
 mod components;
@@ -45,6 +45,9 @@ enum Route {
 
         #[route("/my-account")]
         MyAccount {},
+
+        #[route("/information/categories/:id")]
+        Category { id: Uuid },
 
         #[route("/:..route")]
         NotFound {route: Vec<String>},

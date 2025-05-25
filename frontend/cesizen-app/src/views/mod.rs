@@ -28,3 +28,6 @@ pub use register::Register;
 
 mod my_account;
 pub use my_account::MyAccount;
+
+pub mod category;
+pub use category::Category;
