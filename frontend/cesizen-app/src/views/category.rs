@@ -3,14 +3,21 @@ use dioxus::prelude::*;
 
 use crate::components::information::category::show::Show as ShowCategory;
 use crate::components::information::content::list::List as ListContents;
+use crate::Route;
 
-/// The Blog page component that will be rendered when the current route is `[Route::Blog]`
-///
-/// The component takes a `id` prop of type `i32` from the route enum. Whenever the id changes, the component function will be
-/// re-run and the rendered HTML will be updated.
 #[component]
 pub fn Category(id: Uuid) -> Element {
     rsx! {
+        div { class: "breadcrumbs text-sm",
+            ul {
+                li {
+                    Link { to: Route::Home { greetings: false }, "Accueil" }
+                }
+                li {
+                    Link { to: Route::Category { id }, "Catégorie" }
+                }
+            }
+        }
 
         ShowCategory { id }
         ListContents { id }
