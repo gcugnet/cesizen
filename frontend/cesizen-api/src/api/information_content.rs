@@ -44,7 +44,7 @@ pub struct ResourceIdentifier {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct InformationContentAttributes {
     // category: Option<InformationCategory>,
-    category_id: String,
+    category_id: Uuid,
     title: String,
     #[serde(rename = "type")]
     content_type: ContentType,
@@ -81,7 +81,7 @@ impl InformationContent {
         &self.id
     }
 
-    pub fn category_id(&self) -> &str {
+    pub fn category_id(&self) -> &Uuid {
         &self.attributes.category_id
     }
 
