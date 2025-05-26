@@ -102,10 +102,24 @@ pub fn Emotions() -> Element {
     }
 
     rsx! {
-        div { class: "flex, justify-center text-center",
-            button { class: "btn btn-primary", onclick: get_basic_emotions, "Get Basic Emotions" }
+        div { class: "flex flex-col sm:flex-row gap-4 justify-center items-center p-4 mb-8",
+            button { class: "btn btn-primary btn", onclick: get_basic_emotions, "Charger les émotions" }
 
-            button { class: "btn btn-primary", onclick: get_user_emotions, "Get User Emotions" }
+            button { class: "btn btn-primary", onclick: get_user_emotions, "Mes émotions" }
+        }
+
+        div { class: "flex justify-center",
+            if let Some(basic_emotions) = &*basic_emotions.read() {
+                ul {
+                    for emotion in basic_emotions.iter() {
+                        div { class: "m-2 card w-96 bg-base-100 card-xs shadow-sm",
+                            div { class: "card-body items-center text-center",
+                                div { class: "card-title", "{emotion.name()}" }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         div {
@@ -138,18 +152,6 @@ pub fn Emotions() -> Element {
                                     hr {}
                                 }
                             }
-                        }
-                    }
-                }
-            }
-        }
-
-        if let Some(basic_emotions) = &*basic_emotions.read() {
-            ul {
-                for emotion in basic_emotions.iter() {
-                    div { class: "m-12 card w-96 bg-base-100 card-xl shadow-sm",
-                        div { class: "card-body items-center text-center",
-                            div { class: "card-title", "{emotion.name()}" }
                         }
                     }
                 }
