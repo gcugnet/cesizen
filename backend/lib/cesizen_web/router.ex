@@ -33,12 +33,25 @@ defmodule CesizenWeb.Router do
 
     get "/", PageController, :home
 
+    # ------------------------------------------------------------------------ #
+    #                                 Users                                    #
+    # ------------------------------------------------------------------------ #
     live "/users", UserLive.Index, :index
     live "/users/new", UserLive.Index, :new
     live "/users/:id/edit", UserLive.Index, :edit
 
     live "/users/:id", UserLive.Show, :show
     live "/users/:id/show/edit", UserLive.Show, :edit
+
+    # ------------------------------------------------------------------------ #
+    #                             Basic Emotions                               #
+    # ------------------------------------------------------------------------ #
+    live "/basic_emotions", BasicEmotionLive.Index, :index
+    live "/basic_emotions/new", BasicEmotionLive.Index, :new
+    live "/basic_emotions/:id/edit", BasicEmotionLive.Index, :edit
+
+    live "/basic_emotions/:id", BasicEmotionLive.Show, :show
+    live "/basic_emotions/:id/show/edit", BasicEmotionLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
