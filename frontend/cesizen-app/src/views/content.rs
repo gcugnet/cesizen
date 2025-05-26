@@ -5,7 +5,7 @@ use crate::{components::information::content::show::Show as ShowContent, Route};
 
 #[component]
 pub fn Content(category_id: Uuid, content_id: Uuid) -> Element {
-    info!("{category_id}");
+    info!("Initial category_id: {category_id}");
     rsx! {
         div { class: "breadcrumbs text-sm",
             ul {
@@ -13,7 +13,13 @@ pub fn Content(category_id: Uuid, content_id: Uuid) -> Element {
                     Link { to: Route::Home { greetings: false }, "Accueil" }
                 }
                 li {
-                    Link { to: Route::Category { id: category_id }, "Catégorie" }
+                    Link {
+                        to: {
+                            info!("Category link category_id: {category_id}");
+                            Route::Category { id: category_id }
+                        },
+                        "Catégorie"
+                    }
                 }
                 li {
                     Link {

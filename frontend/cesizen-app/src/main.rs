@@ -41,7 +41,7 @@ enum Route {
         #[route("/information/categories/:id")]
         Category { id: Uuid },
 
-        #[route("/information/contents/:content_id")]
+        #[route("/information/categories/:category_id/contents/:content_id")]
         Content { category_id: Uuid, content_id: Uuid },
 
         #[route("/:..route")]

@@ -1,10 +1,12 @@
 use cesizen_api::api::{information_category::InformationCategory, uuid::Uuid};
-use dioxus::prelude::*;
+use dioxus::{logger::tracing::info, prelude::*};
 
-use crate::API;
+use crate::{Route, API};
 
 #[component]
 pub fn Show(id: Uuid) -> Element {
+    let nav = navigator();
+
     let get_category =
         use_resource(move || async move { InformationCategory::get(&API.read(), &id).await });
 
@@ -22,7 +24,18 @@ pub fn Show(id: Uuid) -> Element {
                     }
                 },
                 Some(Err(e)) => rsx! {
-                    div { "Erreur lors de la récupération des catégories : {e}" }
+                    {
+                        info!("{:?}", e);
+                        let _ = nav
+                            .push(Route::NotFound {
+                                route: vec![
+                                    "information".to_string(),
+                                    "categories".to_string(),
+                                    id.to_string(),
+                                ],
+                            });
+                        rsx! { "" }
+                    }
                 },
                 None => rsx! {},
             }
