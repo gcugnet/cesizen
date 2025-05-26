@@ -9,6 +9,7 @@ defmodule Cesizen.Information.Content do
 
   json_api do
     type "content"
+    includes [:category]
   end
 
   postgres do

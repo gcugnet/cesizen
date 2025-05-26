@@ -1,14 +1,15 @@
-use cesizen_api::api::user::User;
 use cesizen_api::api::CesizenApi;
+use cesizen_api::api::{user::User, uuid::Uuid};
 // The dioxus prelude contains a ton of common items used in dioxus apps. It's a good idea to import wherever you
 // need dioxus
 use dioxus::prelude::*;
 
-use views::{Blog, Home, Login, MyAccount, Navbar, Register, Test};
+use views::{Category, Content, Home, Login, MyAccount, Navbar, Register};
 
 /// Define a components module that contains all shared components for our app.
 mod components;
 use crate::components::NotFound;
+mod utils;
 /// Define a views module that contains the UI for all Layouts and Routes for our app.
 mod views;
 
@@ -27,15 +28,6 @@ enum Route {
         // the component for that route will be rendered. The component name that is rendered defaults to the variant name.
         #[route("/")]
         Home { greetings: bool },
-        // The route attribute can include dynamic parameters that implement [`std::str::FromStr`] and [`std::fmt::Display`] with the `:` syntax.
-        // In this case, id will match any integer like `/blog/123` or `/blog/-456`.
-        #[route("/blog/:id")]
-        // Fields of the route variant will be passed to the component as props. In this case, the blog component must accept
-        // an `id` prop of type `i32`.
-        Blog { id: i32 },
-
-        #[route("/test")]
-        Test {},
 
         #[route("/login")]
         Login {},
@@ -45,6 +37,12 @@ enum Route {
 
         #[route("/my-account")]
         MyAccount {},
+
+        #[route("/information/categories/:id")]
+        Category { id: Uuid },
+
+        #[route("/information/categories/:category_id/contents/:content_id")]
+        Content { category_id: Uuid, content_id: Uuid },
 
         #[route("/:..route")]
         NotFound {route: Vec<String>},
@@ -81,6 +79,6 @@ fn App() -> Element {
 
         // The router component renders the route enum we defined above. It will handle synchronization of the URL and render
         // the layouts and components for the active route.
-        div { class: "p-8", Router::<Route> {} }
+        div { class: "sm:p-8", Router::<Route> {} }
     }
 }

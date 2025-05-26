@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 pub enum Response {
     Success {
         data: ResponseData,
-        // included: Vec<serde_json::Value>,
+        included: Option<Vec<Data>>,
         meta: serde_json::Value,
     },
     Error {

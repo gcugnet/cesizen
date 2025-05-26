@@ -48,7 +48,7 @@ pub fn Login() -> Element {
             {
                 Ok(user) => {
                     CURRENT_USER.write().replace(user);
-                    let _ = nav.push(Route::Home { greetings: true });
+                    nav.push(Route::Home { greetings: true });
                 }
                 Err(_e) => {
                     state.set(LoginState::Error(

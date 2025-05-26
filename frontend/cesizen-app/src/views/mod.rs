@@ -11,14 +11,8 @@
 mod home;
 pub use home::Home;
 
-mod blog;
-pub use blog::Blog;
-
 mod navbar;
 pub use navbar::Navbar;
-
-mod test;
-pub use test::Test;
 
 mod login;
 pub use login::Login;
@@ -28,3 +22,9 @@ pub use register::Register;
 
 mod my_account;
 pub use my_account::MyAccount;
+
+pub mod category;
+pub use category::Category;
+
+pub mod content;
+pub use content::Content;

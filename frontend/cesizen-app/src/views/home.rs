@@ -1,4 +1,5 @@
-use crate::{components::Hero, CURRENT_USER};
+use crate::components::information::category::list::List as InformationCategoriesList;
+use crate::CURRENT_USER;
 use dioxus::logger::tracing::info;
 use dioxus::prelude::*;
 
@@ -14,6 +15,8 @@ pub fn Home(greetings: bool) -> Element {
                 div { class: "mx-4 alert alert-success", "Bienvenue {user.name()} !" }
             }
         }
-        Hero {}
+
+        InformationCategoriesList {}
+        {}
     }
 }

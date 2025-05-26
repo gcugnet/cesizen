@@ -4,6 +4,8 @@ pub mod user;
 
 mod json_api;
 
+pub use uuid;
+
 use cesizen_helpers::tracing::LogResult as _;
 use json_api::LoginMeta;
 use reqwest::{Client, Response, StatusCode, header::HeaderMap};
@@ -131,7 +133,7 @@ impl CesizenApi {
             .log_err()?;
 
         match response {
-            json_api::Response::Success { data, meta } => match data {
+            json_api::Response::Success { data, meta, .. } => match data {
                 json_api::ResponseData::Resource(resource) => {
                     let user: User = serde_json::from_value(resource.attributes.clone())
                         .map_err(LoginError::ParseError)
