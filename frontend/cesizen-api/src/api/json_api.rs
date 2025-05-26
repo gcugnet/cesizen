@@ -29,12 +29,21 @@ pub struct Data {
     pub resource_name: String,
 }
 
-#[derive(Debug, Serialize, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
 pub struct RelationshipData {
     pub data: Option<ResourceIdentifier>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct Relationship<T> {
+    pub data: Option<T>,
+    // #[serde(default)]
+    // pub links: Links,
+    // #[serde(default)]
+    // pub meta: Meta,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ResourceIdentifier {
     pub id: String,
     #[serde(rename = "type")]

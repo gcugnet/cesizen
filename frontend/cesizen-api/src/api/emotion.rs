@@ -5,14 +5,14 @@ use uuid::Uuid;
 
 use super::{CesizenApi, json_api};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 
 pub struct Emotion {
     id: Uuid,
     attributes: EmotionAttributes,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct EmotionAttributes {
     basic_emotion_id: Uuid,
     name: String,
