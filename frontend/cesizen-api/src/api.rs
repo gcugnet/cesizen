@@ -1,3 +1,5 @@
+pub mod basic_emotion;
+pub mod emotion;
 pub mod information_category;
 pub mod information_content;
 pub mod user;
