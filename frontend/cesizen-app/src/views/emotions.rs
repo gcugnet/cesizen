@@ -30,11 +30,7 @@ pub fn Emotions() -> Element {
         info!("{:?}", current_user);
 
         spawn(async move {
-            let uuid = if let Some(user) = &current_user {
-                Some(user.id())
-            } else {
-                None
-            };
+            let uuid = current_user.as_ref().map(|user| user.id());
 
             if let Some(id) = uuid {
                 let resp = User::get(&API.read(), id).await;
