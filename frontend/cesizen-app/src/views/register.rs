@@ -43,19 +43,19 @@ pub fn Register() -> Element {
                     formatted_data
                         .get("name")
                         .unwrap_or(&Default::default())
-                        .as_str(),
+                        .to_string(),
                     formatted_data
                         .get("email")
                         .unwrap_or(&Default::default())
-                        .as_str(),
+                        .to_string(),
                     formatted_data
                         .get("password")
                         .unwrap_or(&Default::default())
-                        .as_str(),
+                        .to_string(),
                     formatted_data
                         .get("password_confirmation")
                         .unwrap_or(&Default::default())
-                        .as_str(),
+                        .to_string(),
                 ),
             )
             .await
