@@ -29,6 +29,18 @@ pub struct Data {
     pub resource_name: String,
 }
 
+#[derive(Debug, Serialize, Deserialize, Default)]
+pub struct RelationshipData {
+    pub data: Option<ResourceIdentifier>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ResourceIdentifier {
+    pub id: String,
+    #[serde(rename = "type")]
+    resource_type: String,
+}
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LoginMeta {
     pub token: String,
