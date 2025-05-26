@@ -52,6 +52,16 @@ defmodule CesizenWeb.Router do
 
     live "/basic_emotions/:id", BasicEmotionLive.Show, :show
     live "/basic_emotions/:id/show/edit", BasicEmotionLive.Show, :edit
+
+    # ------------------------------------------------------------------------ #
+    #                                Emotions                                  #
+    # ------------------------------------------------------------------------ #
+    live "/emotions", EmotionLive.Index, :index
+    live "/emotions/new", EmotionLive.Index, :new
+    live "/emotions/:id/edit", EmotionLive.Index, :edit
+
+    live "/emotions/:id", EmotionLive.Show, :show
+    live "/emotions/:id/show/edit", EmotionLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
