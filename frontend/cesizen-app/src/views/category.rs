@@ -1,7 +1,8 @@
 use cesizen_api::api::uuid::Uuid;
 use dioxus::prelude::*;
 
-use crate::components::information::category::show::Show;
+use crate::components::information::category::show::Show as ShowCategory;
+use crate::components::information::content::list::List as ListContents;
 
 /// The Blog page component that will be rendered when the current route is `[Route::Blog]`
 ///
@@ -11,6 +12,7 @@ use crate::components::information::category::show::Show;
 pub fn Category(id: Uuid) -> Element {
     rsx! {
 
-        Show { id }
+        ShowCategory { id }
+        ListContents { id }
     }
 }
