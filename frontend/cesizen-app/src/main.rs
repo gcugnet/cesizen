@@ -4,7 +4,7 @@ use cesizen_api::api::{user::User, uuid::Uuid};
 // need dioxus
 use dioxus::prelude::*;
 
-use views::{Category, Content, Home, Login, MyAccount, Navbar, Register};
+use views::{Category, Content, Emotions, Home, Login, MyAccount, Navbar, Register};
 
 /// Define a components module that contains all shared components for our app.
 mod components;
@@ -43,6 +43,9 @@ enum Route {
 
         #[route("/information/categories/:category_id/contents/:content_id")]
         Content { category_id: Uuid, content_id: Uuid },
+
+        #[route("/emotions")]
+        Emotions {},
 
         #[route("/:..route")]
         NotFound {route: Vec<String>},

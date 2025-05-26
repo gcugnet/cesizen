@@ -28,3 +28,6 @@ pub use category::Category;
 
 pub mod content;
 pub use content::Content;
+
+pub mod emotions;
+pub use emotions::Emotions;
