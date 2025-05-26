@@ -367,6 +367,7 @@ dependencies = [
  "dioxus",
  "regex",
  "strum",
+ "thiserror 2.0.12",
 ]
 
 [[package]]
