@@ -2,14 +2,33 @@ use cesizen_helpers::tracing::LogResult;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use thiserror::Error;
+use uuid::Uuid;
 
-use super::{CesizenApi, json_api};
+use super::{
+    CesizenApi,
+    emotion::Emotion,
+    json_api::{self, RelationshipData},
+};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct User {
+    id: Uuid,
+    attributes: UserAttributes,
+    relationships: UserRelationships,
+    emotions: Option<Vec<Emotion>>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct UserAttributes {
     name: String,
     email: String,
     role: Role,
+}
+
+#[derive(Debug, Serialize, Deserialize, Default)]
+pub struct UserRelationships {
+    #[serde(default)]
+    emotions: RelationshipData,
 }
 
 #[derive(Debug, Serialize)]
@@ -53,7 +72,7 @@ pub enum RegisterError {
 
 impl User {
     pub fn name(&self) -> &str {
-        &self.name
+        &self.attributes.name
     }
 
     /// Registers a user with a `name`, `email`, `password` and `password_confirmation`.
