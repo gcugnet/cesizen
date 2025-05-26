@@ -16,17 +16,24 @@ pub fn Navbar() -> Element {
                     to: Route::Home { greetings: false },
                     "Accueil"
                 }
+                if let Some(_user) = &*CURRENT_USER.read() {
+                    Link {
+                        class: "ml-2 btn btn-ghost text-xl",
+                        to: Route::Emotions {},
+                        "Mes émotions"
+                    }
+                }
             }
             div { class: "navbar-end",
-                if let None = &*CURRENT_USER.read() {
-                    Link { class: "btn btn-ghost text-xl", to: Route::Login {}, "Connexion" }
-                } else {
+                if let Some(_user) = &*CURRENT_USER.read() {
                     Link {
                         class: "btn btn-ghost text-xl",
                         to: Route::MyAccount {},
                         {}
                         "Mon compte"
                     }
+                } else {
+                    Link { class: "btn btn-ghost text-xl", to: Route::Login {}, "Connexion" }
                 }
             }
         }

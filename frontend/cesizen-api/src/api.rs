@@ -6,6 +6,7 @@ pub mod user;
 
 mod json_api;
 
+pub use chrono;
 pub use uuid;
 
 use cesizen_helpers::tracing::LogResult as _;
@@ -137,9 +138,10 @@ impl CesizenApi {
         match response {
             json_api::Response::Success { data, meta, .. } => match data {
                 json_api::ResponseData::Resource(resource) => {
-                    let user: User = serde_json::from_value(resource.attributes.clone())
-                        .map_err(LoginError::ParseError)
-                        .log_err()?;
+                    let user: User =
+                        serde_json::from_value(serde_json::to_value(resource).unwrap())
+                            .map_err(LoginError::ParseError)
+                            .log_err()?;
 
                     let LoginMeta { token } = serde_json::from_value(meta)
                         .map_err(LoginError::ParseError)

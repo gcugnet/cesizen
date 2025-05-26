@@ -1,21 +1,23 @@
 use cesizen_helpers::tracing::LogResult;
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 use uuid::Uuid;
 
 use super::{CesizenApi, json_api};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 
 pub struct Emotion {
     id: Uuid,
     attributes: EmotionAttributes,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct EmotionAttributes {
     basic_emotion_id: Uuid,
     name: String,
+    inserted_at: DateTime<Utc>,
 }
 
 #[derive(Debug, Error)]
@@ -53,6 +55,10 @@ impl Emotion {
 
     pub fn name(&self) -> &str {
         &self.attributes.name
+    }
+
+    pub fn inserted_at(&self) -> &DateTime<Utc> {
+        &self.attributes.inserted_at
     }
 
     pub async fn list(api: &CesizenApi) -> Result<Vec<Emotion>, ListError> {

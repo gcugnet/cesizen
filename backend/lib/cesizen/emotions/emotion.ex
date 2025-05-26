@@ -9,6 +9,7 @@ defmodule Cesizen.Emotions.Emotion do
 
   json_api do
     type "emotion"
+    default_fields [:name, :basic_emotion_id, :inserted_at]
   end
 
   postgres do

@@ -4,6 +4,7 @@ use thiserror::Error;
 use uuid::Uuid;
 
 use super::information_category::InformationCategory;
+use super::json_api::RelationshipData;
 use super::{CesizenApi, json_api};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -18,27 +19,15 @@ pub struct InformationContent {
     id: Uuid,
     attributes: InformationContentAttributes,
     #[serde(default)]
-    relationships: Relationships,
+    relationships: CategoryRelationships,
     #[serde(skip)]
     category: Option<InformationCategory>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Default)]
-pub struct Relationships {
+pub struct CategoryRelationships {
     #[serde(default)]
     category: RelationshipData,
-}
-
-#[derive(Debug, Serialize, Deserialize, Default)]
-pub struct RelationshipData {
-    data: Option<ResourceIdentifier>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct ResourceIdentifier {
-    id: String,
-    #[serde(rename = "type")]
-    resource_type: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

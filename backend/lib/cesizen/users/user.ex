@@ -11,6 +11,7 @@ defmodule Cesizen.Users.User do
 
   json_api do
     type "user"
+    includes [:emotions]
   end
 
   postgres do
@@ -56,6 +57,7 @@ defmodule Cesizen.Users.User do
 
   relationships do
     many_to_many :emotions, Emotion do
+      public? true
       through UserEmotion
       source_attribute_on_join_resource :user_id
       destination_attribute_on_join_resource :emotion_id

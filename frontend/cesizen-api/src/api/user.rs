@@ -2,25 +2,44 @@ use cesizen_helpers::tracing::LogResult;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use thiserror::Error;
+use uuid::Uuid;
 
-use super::{CesizenApi, json_api};
+use super::{
+    CesizenApi,
+    emotion::Emotion,
+    json_api::{self, Relationship, ResourceIdentifier},
+};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct User {
+    id: Uuid,
+    attributes: UserAttributes,
+    relationships: UserRelationships,
+    emotions: Option<Vec<Emotion>>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct UserAttributes {
     name: String,
     email: String,
     role: Role,
 }
 
-#[derive(Debug, Serialize)]
-pub struct UserParams<'a> {
-    name: &'a str,
-    email: &'a str,
-    password: &'a str,
-    password_confirmation: &'a str,
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+pub struct UserRelationships {
+    #[serde(default)]
+    emotions: Relationship<Vec<ResourceIdentifier>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize)]
+pub struct UserParams {
+    name: String,
+    email: String,
+    password: String,
+    password_confirmation: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "snake_case")]
 enum Role {
     User,
@@ -40,6 +59,18 @@ pub enum ListError {
 }
 
 #[derive(Debug, Error)]
+pub enum GetError {
+    #[error("An error occurred during the get user API request.")]
+    ApiError(#[from] super::ApiError),
+    #[error("Failed to parse the user.")]
+    ParseError(#[source] serde_json::Error),
+    #[error("The user doesn’t match this application requirements.")]
+    FormatError,
+    #[error("An unknown error occurred while getting the user.")]
+    UnknownError(Vec<json_api::Error>),
+}
+
+#[derive(Debug, Error)]
 pub enum RegisterError {
     #[error("An error occurred during the list users API request.")]
     ApiError(#[from] super::ApiError),
@@ -52,14 +83,22 @@ pub enum RegisterError {
 }
 
 impl User {
+    pub fn id(&self) -> &Uuid {
+        &self.id
+    }
+
     pub fn name(&self) -> &str {
-        &self.name
+        &self.attributes.name
+    }
+
+    pub fn emotions(&self) -> &Option<Vec<Emotion>> {
+        &self.emotions
     }
 
     /// Registers a user with a `name`, `email`, `password` and `password_confirmation`.
     pub async fn register(
         api: &CesizenApi,
-        user_params: UserParams<'_>,
+        user_params: UserParams,
     ) -> Result<User, RegisterError> {
         let attributes = serde_json::to_value(user_params)
             .map_err(RegisterError::ParseError)
@@ -89,6 +128,53 @@ impl User {
         }
     }
 
+    /// Get a single user with its associated emotions.
+    pub async fn get(api: &CesizenApi, id: &Uuid) -> Result<User, GetError> {
+        let endpoint = format!("users/{id}/?include=emotions");
+        let response = api.get(&endpoint).await?;
+
+        match response {
+            json_api::Response::Success { data, included, .. } => match data {
+                json_api::ResponseData::Resource(item) => {
+                    let mut user: User =
+                        serde_json::from_value(serde_json::to_value(item).unwrap())
+                            .map_err(GetError::ParseError)
+                            .log_err()?;
+
+                    if let Some(included_data) = included {
+                        // Get all emotion IDs from relationships
+                        let emotion_ids: Vec<String> = user
+                            .relationships
+                            .emotions
+                            .data
+                            .as_ref()
+                            .map(|resources| resources.iter().map(|r| r.id.clone()).collect())
+                            .unwrap_or_default();
+
+                        let included_emotions: Vec<_> = included_data
+                            .into_iter()
+                            .filter(|include| {
+                                include.resource_name == "emotion"
+                                    && emotion_ids.contains(&include.id)
+                            })
+                            .map(|include| {
+                                serde_json::from_value(serde_json::to_value(include).unwrap())
+                                    .map_err(GetError::ParseError)
+                            })
+                            .collect::<Result<Vec<_>, _>>()
+                            .log_err()?;
+
+                        user.emotions = Some(included_emotions);
+                    }
+
+                    Ok(user)
+                }
+                json_api::ResponseData::Collection(_) => Err(GetError::FormatError).log_err(),
+            },
+            json_api::Response::Error { errors } => Err(GetError::UnknownError(errors)).log_err(),
+        }
+    }
+
     /// Lists users.
     pub async fn list(api: &CesizenApi) -> Result<Vec<User>, ListError> {
         let response = api.get("users").await?; // Returns if ApiError
@@ -112,12 +198,12 @@ impl User {
     }
 }
 
-impl<'a> UserParams<'a> {
+impl UserParams {
     pub fn new(
-        name: &'a str,
-        email: &'a str,
-        password: &'a str,
-        password_confirmation: &'a str,
+        name: String,
+        email: String,
+        password: String,
+        password_confirmation: String,
     ) -> Self {
         Self {
             name,
