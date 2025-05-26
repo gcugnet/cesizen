@@ -25,3 +25,6 @@ pub use my_account::MyAccount;
 
 pub mod category;
 pub use category::Category;
+
+pub mod content;
+pub use content::Content;

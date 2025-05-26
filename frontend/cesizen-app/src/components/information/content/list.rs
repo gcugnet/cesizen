@@ -1,6 +1,6 @@
 use crate::utils::string::StringPreview;
 use cesizen_api::api::{information_content::InformationContent, uuid::Uuid};
-use dioxus::prelude::*;
+use dioxus::{logger::tracing::info, prelude::*};
 
 use crate::{Route, API};
 
@@ -27,9 +27,14 @@ pub fn List(id: Option<Uuid>) -> Element {
                                 button {
                                     class: "mt-2 btn btn-primary",
                                     onclick: {
-                                        let id = *content.id();
+                                        let category_id = *content.category_id();
+                                        info!("{category_id}");
+                                        let content_id = *content.id();
                                         move |_| {
-                                            nav.push(Route::Content { id });
+                                            nav.push(Route::Content {
+                                                category_id,
+                                                content_id,
+                                            });
                                         }
                                     },
                                     "Voir"
