@@ -54,6 +54,17 @@ defmodule CesizenWeb.Router do
     live "/categories/:id/show/edit", CategoryLive.Show, :edit
 
     # ------------------------------------------------------------------------ #
+    #                           Information Contents                           #
+    # ------------------------------------------------------------------------ #
+
+    live "/contents", ContentLive.Index, :index
+    live "/contents/new", ContentLive.Index, :new
+    live "/contents/:id/edit", ContentLive.Index, :edit
+
+    live "/contents/:id", ContentLive.Show, :show
+    live "/contents/:id/show/edit", ContentLive.Show, :edit
+
+    # ------------------------------------------------------------------------ #
     #                             Basic Emotions                               #
     # ------------------------------------------------------------------------ #
     live "/basic_emotions", BasicEmotionLive.Index, :index
