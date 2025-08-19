@@ -31,3 +31,6 @@ pub use content::Content;
 
 pub mod emotions;
 pub use emotions::Emotions;
+
+pub mod support;
+pub use support::Support;
