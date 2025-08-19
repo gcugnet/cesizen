@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    types:
+      - opened
+      - synchronize
+      - edited
+      - reopened
+
+env:
+  CARGO_TERM_COLOR: always
+  CLICOLOR_FORCE: 1
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - system: x86_64-linux
+            runner: ubuntu-latest
+          - system: aarch64-darwin
+            runner: macos-latest
+    steps:
+      - name: Clone the repository
+        uses: actions/checkout@v4
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+      - name: Setup the Nix cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Setup the environment
+        run: |
+          nix build -L --no-link .#devShells.${{ matrix.system }}.ci
+      - name: Install Hex
+        run: cd backend && nix develop ..#ci -c mix local.hex --force
+      - name: Build and run backend tests
+        run: cd backend && nix develop ..#ci -c test-backend
+      - name: Build and run frontend tests
+        run: cd frontend/cesizen-app && nix develop ../..#ci -c test-frontend
