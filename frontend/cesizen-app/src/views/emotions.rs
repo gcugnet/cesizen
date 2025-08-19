@@ -10,12 +10,6 @@ use thiserror::Error;
 pub enum EmotionsError {
     #[error("Failed to fetch emotions: {0}")]
     FetchError(String),
-
-    #[error("User not found")]
-    UserNotFound,
-
-    #[error("Invalid data: {0}")]
-    InvalidData(String),
 }
 
 /// The Home page component that will be rendered when the current route is `[Route::Home]`

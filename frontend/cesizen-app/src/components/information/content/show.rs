@@ -1,5 +1,5 @@
 use cesizen_api::api::{information_content::InformationContent, uuid::Uuid};
-use dioxus::{html::nav, logger::tracing::info, prelude::*};
+use dioxus::{logger::tracing::info, prelude::*};
 
 use crate::{Route, API};
 
