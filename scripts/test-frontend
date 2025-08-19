@@ -1,0 +1,16 @@
+#!/bin/sh
+
+printf "\e[32m=> Install cargo dependencies...\e[0m\n\n"
+echo "npm install"
+npm install
+echo
+
+printf "\e[32m=> Create 'assets/tailwind.css'...\e[0m\n\n"
+echo "npx tailwindcss -i ./input.css -o ./assets/tailwind.css"
+npx tailwindcss -i ./input.css -o ./assets/tailwind.css
+echo
+
+printf "\e[32m=> Compiles the application and run frontend tests...\e[0m\n\n"
+echo "cargo test"
+cargo test
+echo
