@@ -18,7 +18,7 @@ pub fn Navbar() -> Element {
                 }
                 if let Some(_user) = &*CURRENT_USER.read() {
                     Link {
-                        class: "ml-2 btn btn-ghost text-xl",
+                        class: "md:ml-2 btn btn-ghost text-xl",
                         to: Route::Emotions {},
                         "Mes émotions"
                     }
