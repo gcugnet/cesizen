@@ -1,7 +1,7 @@
 # cesizen
 A minimalist application to help people be aware of their mental health.
 
-## Development
+## Developments
 
 You should have [Nix](https://nixos.org/) installed on you machine in order to build the project's
 environment.
