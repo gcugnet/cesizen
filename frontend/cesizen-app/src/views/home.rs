@@ -1,5 +1,5 @@
 use crate::components::information::category::list::List as InformationCategoriesList;
-use crate::CURRENT_USER;
+use crate::{Route, CURRENT_USER};
 use dioxus::logger::tracing::info;
 use dioxus::prelude::*;
 
@@ -18,5 +18,14 @@ pub fn Home(greetings: bool) -> Element {
 
         InformationCategoriesList {}
         {}
+
+        div { class: "m-4 flex flex-col text-xs font-medium items-center",
+            "Besoin d’aide ?"
+            Link {
+                class: "mx-4 mt-2 btn btn-sm btn-secondary",
+                to: Route::Support {},
+                "Contacter le support"
+            }
+        }
     }
 }

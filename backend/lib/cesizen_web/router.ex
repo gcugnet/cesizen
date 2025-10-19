@@ -3,6 +3,8 @@ defmodule CesizenWeb.Router do
 
   import AshAuthentication.Plug.Helpers
 
+  alias CesizenWeb.GitHubController
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -24,6 +26,8 @@ defmodule CesizenWeb.Router do
     forward "/swaggerui", OpenApiSpex.Plug.SwaggerUI,
       path: "/api/v1/open_api",
       default_model_expand_depth: 4
+
+    post "/issues", GitHubController, :create_issue
 
     forward "/", CesizenWeb.AshJsonApiRouter
   end
