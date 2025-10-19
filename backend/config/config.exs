@@ -46,6 +46,11 @@ config :cesizen,
   generators: [timestamp_type: :utc_datetime],
   ash_domains: [Cesizen.Information, Cesizen.Emotions, Cesizen.Users]
 
+config :cesizen,
+  github_token: System.get_env("GITHUB_TOKEN"),
+  github_repo_owner: System.get_env("GITHUB_REPO_OWNER"),
+  github_repo_name: System.get_env("GITHUB_REPO_NAME")
+
 # Configures the endpoint
 config :cesizen, CesizenWeb.Endpoint,
   url: [host: "localhost"],

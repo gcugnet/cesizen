@@ -33,7 +33,7 @@
   outputs = { flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [ inputs.devshell.flakeModule ];
-      systems = [ "x86_64-linux" ];
+      systems = [ "x86_64-linux" "aarch64-darwin" ];
 
       perSystem = { system, ... }:
         let
@@ -63,108 +63,152 @@
           git-z = inputs.git-z.packages.${system}.git-z;
         in
         {
-          devshells.default = {
-            name = "cesizen";
+          devshells =
+            let
+              buildToolchain = with pkgs; [
+                beam.packages.erlang_26.elixir_1_16
+                gcc
+                gnumake
+                rust-toolchain
+              ];
 
-            motd = ''
+              projectDependencies = with pkgs; [
+                # Postgres
+                postgresql_15
 
-              {202}🔨 Welcome to the cesizen devshell!{reset}
-              $(type -p menu &>/dev/null && menu)
-            '';
+                # Dioxus
+                dioxus-cli
+                wasm-bindgen-cli_0_2_100
+                nodejs_23
+              ];
 
-            packages = with pkgs; [
-              # Build toolchain.
-              beam.packages.erlang_26.elixir_1_16
-              gcc
-              gnumake
+              deploymentDependencies = with pkgs; [
+                flyctl
+              ];
 
-              # Project dependencies.
-              postgresql_15
+              ideToolchain = with pkgs; [
+                nixd
+                nixpkgs-fmt
+                rust-analyzer
 
-              # Development dependencies.
-              inotify-tools
-              libnotify
+              ];
 
-              # IDE toolchain.
-              nixd
-              nixpkgs-fmt
+              developmentTools = with pkgs; [
+                inotify-tools
+                libnotify
+                git
+                gitAndTools.gitflow
+                git-z
+              ];
 
-              # Tools.
-              flyctl
-              git
-              gitAndTools.gitflow
-              git-z
+              buildEnv = [
+                {
+                  name = "PGDATA";
+                  eval = "$PWD/backend/db";
+                }
 
-              # Rust toolchain.
-              rust-toolchain
-              rust-analyzer
+                {
+                  name = "ANDROID_HOME";
+                  value = "${android-sdk}/share/android-sdk";
+                }
 
-              # Dioxus.
-              dioxus-cli
-              wasm-bindgen-cli_0_2_100
-              nodejs_23 # Needed to start Tailwind watcher
-            ];
+                {
+                  name = "GRADLE_OPTS";
+                  value = "-Dorg.gradle.project.android.aapt2FromMavenOverride=" +
+                    "${android-sdk}/share/android-sdk/build-tools/34.0.0/aapt2";
+                }
 
-            env = [
-              {
-                name = "PGDATA";
-                eval = "$PWD/backend/db";
-              }
+                {
+                  name = "JAVA_HOME";
+                  value = pkgs.jdk17.home;
+                }
+              ];
 
-              {
-                name = "ANDROID_HOME";
-                value = "${android-sdk}/share/android-sdk";
-              }
+              ideEnv = [
+                {
+                  name = "NIX_PATH";
+                  value = "nixpkgs=${inputs.nixpkgs}";
+                }
+              ];
 
-              {
-                name = "GRADLE_OPTS";
-                value = "-Dorg.gradle.project.android.aapt2FromMavenOverride=" +
-                  "${android-sdk}/share/android-sdk/build-tools/34.0.0/aapt2";
-              }
+            in
 
-              {
-                name = "JAVA_HOME";
-                value = pkgs.jdk17.home;
-              }
+            {
+              default = {
 
-              {
-                name = "NIX_PATH";
-                value = "nixpkgs=${inputs.nixpkgs}";
-              }
-            ];
+                name = "cesizen";
 
-            commands = [
-              {
-                name = "setup";
-                help = "Compiles the application, and sets the database up";
-                command = builtins.readFile ./scripts/setup;
-              }
+                motd = ''
 
-              {
-                name = "start-db";
-                help = "Starts a local instance of PostgreSQL";
-                command = builtins.readFile ./scripts/start-db;
-              }
+                  {202}🔨 Welcome to the cesizen devshell!{reset}
+                  $(type -p menu &>/dev/null && menu)
+                '';
 
-              {
-                name = "stop-db";
-                help = "Stops the local instance of PostgreSQL";
-                command = builtins.readFile ./scripts/stop-db;
-              }
+                packages = buildToolchain
+                  ++ projectDependencies
+                  ++ deploymentDependencies
+                  ++ ideToolchain
+                  ++ developmentTools;
 
-              {
-                name = "reset-db";
-                help = "Reset the cesizen_dev Postgres database instance";
-                command = builtins.readFile ./scripts/reset-db;
-              }
+                env = buildEnv
+                  ++ ideEnv;
 
-              {
-                name = "start-tailwind";
-                help = "Starts the Tailwind watcher";
-                command = builtins.readFile ./scripts/start-tailwind;
-              }
-            ];
-          };
+                commands = [
+                  {
+                    name = "setup";
+                    help = "Compiles the application, and sets the database up";
+                    command = builtins.readFile ./scripts/setup;
+                  }
+
+                  {
+                    name = "start-db";
+                    help = "Starts a local instance of PostgreSQL";
+                    command = builtins.readFile ./scripts/start-db;
+                  }
+
+                  {
+                    name = "stop-db";
+                    help = "Stops the local instance of PostgreSQL";
+                    command = builtins.readFile ./scripts/stop-db;
+                  }
+
+                  {
+                    name = "reset-db";
+                    help = "Reset the cesizen_dev Postgres database instance";
+                    command = builtins.readFile ./scripts/reset-db;
+                  }
+
+                  {
+                    name = "start-tailwind";
+                    help = "Starts the Tailwind watcher";
+                    command = builtins.readFile ./scripts/start-tailwind;
+                  }
+                ];
+              };
+
+              ci = {
+                name = "cesizen CI";
+
+                packages = buildToolchain
+                  ++ projectDependencies;
+
+                env = buildEnv;
+
+                commands = [
+                  {
+                    name = "test-backend";
+                    help = "Get dependencies, compiles the application, sets the database and run backend tests";
+                    command = builtins.readFile ./scripts/test-backend;
+                  }
+
+                  {
+                    name = "test-frontend";
+                    help = "Get dependencies, creates tailwind.css, compiles the application, and run frontend tests";
+                    command = builtins.readFile ./scripts/test-frontend;
+                  }
+                ];
+              };
+            };
         };
     };
 }
